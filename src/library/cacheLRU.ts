@@ -40,9 +40,7 @@ export class LRUCache<K, V> {
    * @param options.maxSize - The maximum number of items the cache can hold. Must be a non-negative integer.
    * @throws {TypeError} When maxSize is not a non-negative integer
    */
-  constructor(options: LRUCacheOptions) {
-    const { maxSize } = options;
-
+  constructor({ maxSize }: Readonly<LRUCacheOptions>) {
     if (maxSize !== undefined) {
       if (typeof maxSize !== 'number' || !Number.isInteger(maxSize) || maxSize < 0) {
         throw new TypeError('CacheLRU options.maxSize must be a non-negative integer');
