@@ -48,7 +48,7 @@ export class LRUCache<K, V> {
         throw new TypeError('CacheLRU options.maxSize must be a non-negative integer');
       }
 
-      this.#maxSize = maxSize + 1;
+      this.#maxSize = maxSize;
     }
   }
 
@@ -84,7 +84,7 @@ export class LRUCache<K, V> {
    */
   set(key: K, value: V): void {
     if (this.#cache.has(key)) this.#reorder(key);
-    else if (this.#cache.size > this.#maxSize) this.shift();
+    else if (this.#cache.size >= this.#maxSize) this.shift();
 
     this.#cache.set(key, value);
   }
