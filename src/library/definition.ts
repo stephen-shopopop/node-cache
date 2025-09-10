@@ -13,9 +13,10 @@ export type LRUCacheOptions = {
  * @extends LRUCacheOptions
  * @interface
  *
+ * @property {number} [maxSize] - The maximum number of entries that can be stored in the cache. Default is 1024.
  * @property {number} [ttl] - Time-to-live in milliseconds for cache entries
  * @property {boolean} [stayAlive] - If true, prevents the cache from being destroyed when empty
- * @property {number} [cleanupInterval] - Interval in milliseconds between cleanup of expired entries
+ * @property {number} [cleanupInterval] - Interval in milliseconds between cleanup of expired entries - Default value is 60000ms (1 minute)
  */
 export type LRUCacheWithTTLOptions = LRUCacheOptions & {
   ttl?: number;

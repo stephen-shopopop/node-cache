@@ -217,7 +217,7 @@ export class CacheLRUWithTTL<K, V> {
    * Stops the cleanup timer for expired cache entries if one is running.
    * This should be called when shutting down the cache to prevent memory leaks.
    */
-  stopCleanup(): void {
+  cancelCleanupTimer(): void {
     if (this.#timer) {
       clearTimeout(this.#timer);
     }
