@@ -1,2 +1,21 @@
 # node-cache
- cache store implementation for nodejs
+
+Cache implementation for nodeJs
+
+## Install
+
+```bash
+npm i @stephen-shopopop/cache
+```
+
+## Usage
+
+### javascript
+
+### typescript
+
+## Options
+
+## Documentation
+
+## Reference
