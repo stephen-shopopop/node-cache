@@ -99,13 +99,17 @@ export class MemoryCacheStore<K, Metadata extends object = Record<PropertyKey, u
    *
    * @param key - The key to store the value under
    * @param value - The value to store, must be a string or Buffer
-   * @param metadata - Associated metadata for the cached entry
+   * @param metadata - Associated metadata for the cached entry, must be a object
    * @throws {TypeError} If value is not a string or Buffer
    * @throws {Error} If entry size exceeds configured maxEntrySize
    */
-  set(key: K, value: string | Buffer, metadata: Metadata): void {
+  set(key: K, value: string | Buffer, metadata: Metadata = {} as Metadata): void {
     if (typeof value !== 'string' && !Buffer.isBuffer(value)) {
       throw new TypeError(`MemoryCache value must be a string or Buffer, received ${typeof value}`);
+    }
+
+    if (typeof metadata !== 'object' || metadata === null) {
+      throw new TypeError(`MemoryCache metadata must be an object, received ${typeof metadata}`);
     }
 
     const size = Buffer.byteLength(value);

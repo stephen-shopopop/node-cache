@@ -161,9 +161,9 @@ describe('MemoryCacheStore', () => {
     const cache = new MemoryCacheStore<string>({ maxCount: 2, maxSize: 10 });
 
     // Act
-    cache.set('key1', 'val1', {});
-    cache.set('key2', 'val2', {});
-    cache.set('key3', 'val3', {});
+    cache.set('key1', 'val1');
+    cache.set('key2', 'val2');
+    cache.set('key3', 'val3');
 
     // Assert
     t.assert.equal(cache.size, 1);
@@ -195,5 +195,31 @@ describe('MemoryCacheStore', () => {
 
     // Assert
     t.assert.equal(cache.byteSize, 10);
+  });
+
+  test('set - should throw on invalid metadata type', (t: TestContext) => {
+    t.plan(3);
+
+    // Arrange
+    const cache = new MemoryCacheStore<string>({});
+
+    // Assert
+    t.assert.throws(
+      // @ts-expect-error Testing invalid type
+      () => cache.set('key1', 'value1', null),
+      TypeError
+    );
+
+    t.assert.throws(
+      // @ts-expect-error Testing invalid type
+      () => cache.set('key1', 'value1', 'invalid'),
+      TypeError
+    );
+
+    t.assert.throws(
+      // @ts-expect-error Testing invalid type
+      () => cache.set('key1', 'value1', 123),
+      TypeError
+    );
   });
 });
