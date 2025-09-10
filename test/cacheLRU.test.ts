@@ -184,4 +184,23 @@ describe('LRUCache', () => {
     t.assert.strictEqual(cache.get('a'), 1);
     t.assert.strictEqual(cache.get('c'), 3);
   });
+
+  test('entries should return iterator in order of least recently used', (t: TestContext) => {
+    t.plan(3);
+
+    // Arrange
+    const cache = new LRUCache<string, number>({ maxSize: 3 });
+    cache.set('a', 1);
+    cache.set('b', 2);
+    cache.set('c', 3);
+    cache.get('a'); // Makes 'a' most recently used
+
+    // Act
+    const entries = Array.from(cache.entries());
+
+    // Assert
+    t.assert.strictEqual(entries.length, 3);
+    t.assert.deepStrictEqual(entries[0], ['b', 2]); // Least recently used
+    t.assert.deepStrictEqual(entries[2], ['a', 1]); // Most recently used
+  });
 });

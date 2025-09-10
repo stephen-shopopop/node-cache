@@ -149,4 +149,14 @@ export class LRUCache<K, V> {
   has(key: K): boolean {
     return this.#cache.has(key);
   }
+
+  /**
+   * Returns an iterator that contains an array of [key, value] pairs for every cache entry.
+   * The iterator is iterating over entries in order of the least recently used items first.
+   *
+   * @returns {IterableIterator<[K, V]>} An iterator containing tuples of key-value pairs
+   */
+  entries(): IterableIterator<[K, V]> {
+    return this.#cache.entries();
+  }
 }

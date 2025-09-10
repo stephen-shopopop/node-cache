@@ -9,6 +9,21 @@ export type LRUCacheOptions = {
 };
 
 /**
+ * Options for configuring an LRU cache with Time-To-Live (TTL) functionality
+ * @extends LRUCacheOptions
+ * @interface
+ *
+ * @property {number} [ttl] - Time-to-live in milliseconds for cache entries
+ * @property {boolean} [stayAlive] - If true, prevents the cache from being destroyed when empty
+ * @property {number} [cleanupInterval] - Interval in milliseconds between cleanup of expired entries
+ */
+export type LRUCacheWithTTLOptions = LRUCacheOptions & {
+  ttl?: number;
+  stayAlive?: boolean;
+  cleanupInterval?: number;
+};
+
+/**
  * Configuration options for memory cache store.
  *
  * @interface MemoryCacheStoreOptions
