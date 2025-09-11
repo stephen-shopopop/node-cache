@@ -1,4 +1,4 @@
-import { LRUCache } from './cacheLRU.js';
+import { LRUCache } from './LRUCache.js';
 import type { LRUCacheWithTTLOptions } from './definition.js';
 
 /**
@@ -28,7 +28,7 @@ import type { LRUCacheWithTTLOptions } from './definition.js';
  * - cleanupInterval must be >= 1000ms
  * - stayAlive must be a boolean
  */
-export class CacheLRUWithTTL<K, V> {
+export class LRUCacheWithTTL<K, V> {
   #cache: LRUCache<K, { value: V; expiry?: number | undefined }>;
   #ttl: number | undefined;
   #timer: NodeJS.Timeout | undefined;
@@ -84,7 +84,15 @@ export class CacheLRUWithTTL<K, V> {
     });
 
     if (stayAlive) {
-      this.#timer = setTimeout(this.#begin, this.#cleanupInterval);
+      this.#timer = setTimeout(() => {
+        for (const [key, entry] of this.#cache.entries()) {
+          if (entry.expiry !== undefined && performance.now() > entry.expiry) {
+            this.#cache.delete(key);
+          }
+        }
+
+        this.#timer?.refresh();
+      }, this.#cleanupInterval);
       this.#timer.unref();
     }
   }
@@ -93,22 +101,6 @@ export class CacheLRUWithTTL<K, V> {
     if (entry.expiry === undefined) return false;
 
     return performance.now() > entry.expiry;
-  }
-
-  #begin(): void {
-    this.#cleanupExpiredEntries();
-
-    this.#timer?.refresh();
-  }
-
-  #cleanupExpiredEntries() {
-    const now = performance.now();
-
-    for (const [key, entry] of this.#cache.entries()) {
-      if (entry.expiry !== undefined && now > entry.expiry) {
-        this.#cache.delete(key);
-      }
-    }
   }
 
   /**
@@ -160,8 +152,12 @@ export class CacheLRUWithTTL<K, V> {
    *
    * @returns {[K, V] | undefined} The first key-value pair that was removed, or undefined if the cache was empty.
    */
-  shift() {
-    return this.#cache.shift();
+  shift(): [K, V] | undefined {
+    const entry = this.#cache.shift();
+
+    if (entry === undefined) return undefined;
+
+    return [entry[0], entry[1].value];
   }
 
   /**

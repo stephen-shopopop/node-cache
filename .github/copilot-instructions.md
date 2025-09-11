@@ -33,6 +33,19 @@ Cache implementation for nodeJs
 
 ### Core Structure
 
+package
+├─ src
+│  ├─ library
+│     ├─ definition.ts
+│     ├─ *.ts (source code)
+│  ├─ index.ts
+├─ test
+│  ├─ setup.js
+│  ├─ teardown.js
+│  ├─ suite tests with suffix *.test.ts
+├─ package.json
+├─ tsconfig.json
+
 ### Key Features
 - Multiple reporter support (spec, tap, dot, junit, github)
 - Code coverage via node:test

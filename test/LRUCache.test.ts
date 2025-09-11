@@ -1,5 +1,5 @@
 import { test, describe, type TestContext } from 'node:test';
-import { LRUCache } from '../src/library/cacheLRU.js';
+import { LRUCache } from '../src/library/LRUCache.js';
 
 describe('LRUCache', () => {
   test('constructor should create cache with default settings', (t: TestContext) => {
