@@ -70,7 +70,8 @@
     "biome:migrate": "npm install --save-dev --save-exact @biomejs/biome@latest && npx @biomejs/biome migrate --write",
     "tarball:check": "npm pack --dry-run",
     "publish:dry-run": "npm publish --dry-run",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "docs": "npx typedoc --out docs src"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.3",

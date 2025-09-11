@@ -20,6 +20,12 @@ Cache implementation for nodeJs
 - Use single quotes for strings.
 - Use arrow functions for callbacks.
 
+## Review
+
+When performing a code review, respond in French.
+
+When performing a code review, focus on readability and avoid nested ternary operators.
+
 ## Development Commands
 
 ### Primary Commands

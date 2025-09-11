@@ -222,4 +222,14 @@ describe('MemoryCacheStore', () => {
       TypeError
     );
   });
+
+  test('delete - should return false if key does not exist', (t: TestContext) => {
+    t.plan(1);
+
+    // Arrange
+    const cache = new MemoryCacheStore<string>({});
+
+    // Act & Assert
+    t.assert.equal(cache.delete('notfound'), false);
+  });
 });
