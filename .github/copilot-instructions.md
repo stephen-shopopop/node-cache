@@ -1,84 +1,60 @@
-# Project Overview
+# Copilot Instructions for `node-cache`
 
-Cache implementation for nodeJs
+## Project Overview
 
-## Folder Structure
+This project implements high-performance, in-memory cache solutions for Node.js, including:
+- LRU cache (`LRUCache`)
+- LRU cache with TTL (`LRUCacheWithTTL`)
+- Memory cache store with metadata and size limits (`MemoryCacheStore`)
 
-- `/src`: Contains the source code for the frontend.
-- `/docs`: Contains documentation for the project.
+## Architecture & Structure
 
-## Libraries and Frameworks
+- **Source code**: `src/library/` (main logic), `src/index.ts` (entry point)
+- **Tests**: `test/` (all test files use `node:test` and follow `*.test.ts`)
+- **Documentation**: `docs/` (generated with TypeDoc, see `npm run docs`)
+- **Build**: TypeScript, supports both ESM and CJS, built with `tsup`
 
-- Node.js
-- TypeScript
-- `node:test` for testing
-- `biome` for linting and formatting
+## Key Patterns
+
+- All caches use strong typing and explicit size/TTL controls.
+- LRU logic is encapsulated in `LRUCache`, reused by other cache types.
+- `MemoryCacheStore` supports metadata per entry and byte-size limits.
+- Prefer arrow functions for callbacks, single quotes for strings, and always use semicolons.
+
+## Developer Workflows
+
+- **Run tests**: `npm run test` (with coverage)
+- **Lint/format**: `npm run lint`, `npm run format` (uses biome)
+- **Type check**: `npm run check`
+- **Build**: `npm run build`
+- **Generate docs**: `npm run docs` (outputs to `/docs`)
+- **Update dependencies**: `npm run deps:update`
+- **Clean**: `npm run clean`
+
+## Testing
+
+- Uses `node:test` (no Jest, Mocha, etc.)
+- Test files: `test/*.test.ts`
+- Coverage and multiple reporters supported via CLI options (see below)
+- Setup/teardown: `test/setup.js`, `test/teardown.js`
+
+## CLI Test Options
+
+- `--concurrency/-c`: Set test concurrency (default: CPUs-1)
+- `--coverage/-C`: Enable code coverage
+- `--watch/-w`: Watch mode
+- `--only/-o`: Only run tests marked as `only`
+- `--reporter/-r`: Set reporter (spec, tap, dot, junit, github)
+- `--pattern/-p`: Glob for test files (default: `*.test.{js|ts}`)
+- `--timeout/-t`: Test timeout (default: 30000ms)
+- Coverage thresholds: `--lines`, `--functions`, `--branches` (default: 80)
 
 ## Coding Standards
 
-- Use semicolons at the end of each statement.
-- Use single quotes for strings.
-- Use arrow functions for callbacks.
+- Use semicolons, single quotes, and arrow functions for callbacks.
+- Avoid nested ternary operators for readability.
+- Code reviews should be in French and focus on clarity.
 
-## Review
+## Examples
 
-When performing a code review, respond in French.
-
-When performing a code review, focus on readability and avoid nested ternary operators.
-
-## Development Commands
-
-### Primary Commands
-- `npm run test` - Run unit tests with coverage, excluding fixtures
-- `npm run lint` - Run standard linter with biome linter
-- `npm run format` - Run standard formatter with biome formatter
-- `npm run check` - Run type checks with TypeScript and run lint commands
-- `npm run build` - Build the project for production package
-
-## Architecture
-
-### Core Structure
-
-package
-├─ src
-│  ├─ library
-│     ├─ definition.ts
-│     ├─ *.ts (source code)
-│  ├─ index.ts
-├─ test
-│  ├─ setup.js
-│  ├─ teardown.js
-│  ├─ suite tests with suffix *.test.ts
-├─ package.json
-├─ tsconfig.json
-
-### Key Features
-- Multiple reporter support (spec, tap, dot, junit, github)
-- Code coverage via node:test
-- Watch mode for development
-
-### Test Structure
-- Tests use `node:test`
-- Test files follow `*.test.{js|ts}` pattern
-
-### TypeScript Support
-- Use tsx for running TypeScript files directly
-- Supports both ESM and CJS module formats
-
-## Configuration
-
-### CLI Options for testing
-- `--concurrency` or `-c`, to set the number of concurrent tests. Defaults to the number of available CPUs minus one.
-- `--coverage` or `-C`, enables code coverage. Default is `false`
-- `--watch` or `-w`, re-run tests on changes. Default is `false`
-- `--only` or `-o`, only run `node:test` with the `only` option set. Default is `false`
-- `--forceExit` or `-F`, finished executing even if the event loop would otherwise remain active. Default is `false`
-- `--expose-gc`, exposes the gc() function to tests. Default is `false`
-- `--reporter` or `-r`, set up a reporter
-- `--pattern` or `-p`, run tests matching the given glob pattern. Default is `*.test.{js|ts}`
-- `--name`, run tests name matching the given glob pattern. Default is `undefined`. ex: `--name="#myTag"`
-- `--timeout` or `-t`, timeouts the tests after a given time. Default is 30000ms
-- `--lines`, set the lines threshold when check coverage is active; default is 80
-- `--functions`, set the functions threshold when check coverage is active; default is 80
-- `--branches`, set the branches threshold when check coverage is active; default is 80
-- `--rootDir`, set rootDir to setup and teardown.
+See `README.md` for usage and API examples.
