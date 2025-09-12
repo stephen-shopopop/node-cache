@@ -306,4 +306,38 @@ describe('SQLiteCacheStore', async () => {
     // Cleanup
     store.close();
   });
+
+  test('should store and retrieve complex metadata', (t: TestContext) => {
+    t.plan(1);
+
+    // Arrange
+    const store = new SQLiteCacheStore();
+    const meta = { arr: [1, 2, { deep: true }], obj: { nested: { a: 1 } }, str: 'x' };
+    store.set('complex', 'val', meta);
+
+    // Act
+    const result = store.get('complex');
+
+    // Assert
+    t.assert.deepEqual(result?.metadata, meta);
+
+    //  Cleanup
+    store.close();
+  });
+
+  test('should not expire with ttl=0', (t: TestContext) => {
+    t.plan(1);
+
+    // Arrange
+    const store = new SQLiteCacheStore();
+
+    // Act
+    store.set('no-expire', 'val', {}, 0);
+
+    // Assert
+    t.assert.equal(store.get('no-expire')?.value.toString(), 'val');
+
+    // Cleanup
+    store.close();
+  });
 });

@@ -4,7 +4,7 @@
     "outDir": "dist",
     "declaration": true,
     "sourceMap": false,
-    "target": "ES2022",
+    "target": "es2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "esModuleInterop": true,
@@ -17,7 +17,9 @@
     "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "lib": ["ESNext"],
+    "lib": [
+      "ESNext"
+    ],
     "allowUnusedLabels": false,
     "allowUnreachableCode": false,
     "exactOptionalPropertyTypes": true,
@@ -30,5 +32,8 @@
     "checkJs": false,
     "emitDeclarationOnly": true
   },
-  "exclude": ["dist"]
+  "exclude": [
+    "dist",
+    "**/**.test-d.ts"
+  ]
 }

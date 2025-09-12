@@ -29,7 +29,7 @@
   },
   "type": "module",
   "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.cts",
   "exports": {
     "require": {
@@ -37,8 +37,8 @@
       "default": "./dist/index.cjs"
     },
     "import": {
-      "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     }
   },
   "tsup": {
@@ -59,6 +59,7 @@
   },
   "scripts": {
     "test": "tsc --pretty --noEmit && npx tsx ./bin/test-runner.js **/*.test.ts -C",
+    "test:types": "tsd --files test/",
     "build": "tsup-node",
     "lint": "biome lint .",
     "format": "biome lint --write . && biome format --write .",
@@ -78,6 +79,7 @@
     "@reporters/github": "^1.11.0",
     "@types/node": "^24.3.1",
     "mitata": "^1.0.34",
+    "tsd": "^0.33.0",
     "tsup": "^8.5.0",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2"

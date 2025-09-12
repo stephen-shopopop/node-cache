@@ -37,6 +37,9 @@ jobs:
       - name: 🗃 Check typescript
         run: npm run build
 
+      - name: 🧪 Test types
+        run: npm run test:types
+
   test:
     name: 🧑‍🔬 Test project
     runs-on: ubuntu-latest
