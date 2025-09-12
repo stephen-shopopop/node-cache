@@ -60,6 +60,7 @@
     "test": "tsc --pretty --noEmit && npx tsx ./bin/test-runner.js **/*.test.ts -C",
     "test:types": "tsd --files test/",
     "coverage": "c8 --reporter=lcov --reporter=text --reporter=html npm run test",
+    "bench": "node bench/cache.bench.js",
     "build": "tsup-node",
     "lint": "biome lint .",
     "format": "biome lint --write . && biome format --write .",
