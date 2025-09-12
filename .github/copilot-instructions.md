@@ -6,6 +6,7 @@ This project implements high-performance, in-memory cache solutions for Node.js,
 - LRU cache (`LRUCache`)
 - LRU cache with TTL (`LRUCacheWithTTL`)
 - Memory cache store with metadata and size limits (`MemoryCacheStore`)
+- SQLite cache store with metadata and entry size limit (`SQLiteCacheStore`)
 
 ## Architecture & Structure
 

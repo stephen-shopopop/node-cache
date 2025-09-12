@@ -17,7 +17,6 @@ import type { LRUCacheOptions } from './definition.js';
  *
  * @public
  *
- * @description
  * Illustration of the design:
  *
  *       entry             entry             entry             entry

@@ -9,8 +9,8 @@ describe('MemoryCacheStore', () => {
     const cache = new MemoryCacheStore({});
 
     // Assert
-    t.assert.equal(cache.size, 0);
-    t.assert.equal(cache.byteSize, 0);
+    t.assert.strictEqual(cache.size, 0);
+    t.assert.strictEqual(cache.byteSize, 0);
   });
 
   test('constructor - should throw on invalid options', (t: TestContext) => {
@@ -34,7 +34,7 @@ describe('MemoryCacheStore', () => {
     const result = cache.get('key1');
 
     // Assert
-    t.assert.equal(result?.value, 'value1');
+    t.assert.strictEqual(result?.value, 'value1');
     t.assert.deepEqual(result?.metadata, metadata);
   });
 
@@ -51,7 +51,7 @@ describe('MemoryCacheStore', () => {
 
     // Assert
     t.assert.ok(Buffer.isBuffer(result?.value));
-    t.assert.equal(result?.value.toString(), 'test');
+    t.assert.strictEqual(result?.value.toString(), 'test');
   });
 
   test('set - should throw on invalid value type', (t: TestContext) => {
@@ -88,10 +88,10 @@ describe('MemoryCacheStore', () => {
     cache.set('key1', 'value1', {});
 
     // Assert
-    t.assert.equal(cache.size, 1);
+    t.assert.strictEqual(cache.size, 1);
     t.assert.ok(cache.delete('key1'));
-    t.assert.equal(cache.size, 0);
-    t.assert.equal(cache.byteSize, 0);
+    t.assert.strictEqual(cache.size, 0);
+    t.assert.strictEqual(cache.byteSize, 0);
   });
 
   test('has - should check existence of keys', (t: TestContext) => {
@@ -120,8 +120,8 @@ describe('MemoryCacheStore', () => {
     cache.clear();
 
     // Assert
-    t.assert.equal(cache.size, 0);
-    t.assert.equal(cache.byteSize, 0);
+    t.assert.strictEqual(cache.size, 0);
+    t.assert.strictEqual(cache.byteSize, 0);
   });
 
   test('size limits - should respect maxCount', (t: TestContext) => {
@@ -136,7 +136,7 @@ describe('MemoryCacheStore', () => {
     cache.set('key3', 'value3', {});
 
     // Assert
-    t.assert.equal(cache.size, 2);
+    t.assert.strictEqual(cache.size, 2);
     t.assert.ok(!cache.has('key1'));
   });
 
@@ -166,7 +166,7 @@ describe('MemoryCacheStore', () => {
     cache.set('key3', 'val3');
 
     // Assert
-    t.assert.equal(cache.size, 1);
+    t.assert.strictEqual(cache.size, 1);
     t.assert.ok(cache.byteSize <= 10);
   });
 
@@ -180,7 +180,7 @@ describe('MemoryCacheStore', () => {
     const result = cache.get('nonexistent');
 
     // Assert
-    t.assert.equal(result, undefined);
+    t.assert.strictEqual(result, undefined);
   });
 
   test('byteSize - should accurately reflect total byte size', (t: TestContext) => {
@@ -194,7 +194,7 @@ describe('MemoryCacheStore', () => {
     cache.set('key2', Buffer.from('67890'), {}); // 5 bytes
 
     // Assert
-    t.assert.equal(cache.byteSize, 10);
+    t.assert.strictEqual(cache.byteSize, 10);
   });
 
   test('set - should throw on invalid metadata type', (t: TestContext) => {
@@ -230,6 +230,6 @@ describe('MemoryCacheStore', () => {
     const cache = new MemoryCacheStore<string>({});
 
     // Act & Assert
-    t.assert.equal(cache.delete('notfound'), false);
+    t.assert.strictEqual(cache.delete('notfound'), false);
   });
 });

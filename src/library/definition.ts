@@ -37,3 +37,27 @@ export type MemoryCacheStoreOptions = {
   maxCount?: number;
   maxEntrySize?: number;
 };
+
+/**
+ * Configuration options for SQLite cache store
+ *
+ * @interface SQLiteCacheStoreOptions
+ * @property {string} [filename] - The name of the SQLite database file - default is ':memory:' for in-memory database
+ * @property {number} [maxEntrySize] - Maximum size of a single cache entry in bytes - default is 2GB
+ * @property {number} [maxCount] - Maximum number of entries allowed in the cache - default is unlimited
+ * @property {number} [timeout] - Timeout duration in milliseconds for database operations
+ */
+export type SQLiteCacheStoreOptions = {
+  filename?: string;
+  maxEntrySize?: number;
+  maxCount?: number;
+  timeout?: number;
+};
+
+/**
+ * Represents a file system path that can be a string path, Buffer, or URL.
+ * This type is commonly used for file operations and path manipulations.
+ *
+ * @typedef {(string | Buffer | URL)} Path
+ */
+export type Path = string | Buffer | URL;

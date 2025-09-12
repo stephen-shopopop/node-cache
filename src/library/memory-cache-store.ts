@@ -2,7 +2,7 @@ import { LRUCache } from './LRUCache.js';
 import type { MemoryCacheStoreOptions } from './definition.js';
 
 type Value<Metadata> = {
-  metadata?: Metadata;
+  metadata: Metadata;
   value: string | Buffer;
   size: number;
 };

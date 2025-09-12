@@ -34,9 +34,9 @@ describe('LRUCacheWithTTL', () => {
     cache.set('b', 2);
 
     // Assert
-    t.assert.equal(cache.get('a'), 1);
-    t.assert.equal(cache.get('b'), 2);
-    t.assert.equal(cache.get('c'), undefined);
+    t.assert.strictEqual(cache.get('a'), 1);
+    t.assert.strictEqual(cache.get('b'), 2);
+    t.assert.strictEqual(cache.get('c'), undefined);
   });
 
   test('respects maxSize limit', (t: TestContext) => {
@@ -51,9 +51,9 @@ describe('LRUCacheWithTTL', () => {
     cache.set('c', 3);
 
     // Assert
-    t.assert.equal(cache.size, 2);
-    t.assert.equal(cache.get('a'), undefined);
-    t.assert.equal(cache.get('c'), 3);
+    t.assert.strictEqual(cache.size, 2);
+    t.assert.strictEqual(cache.get('a'), undefined);
+    t.assert.strictEqual(cache.get('c'), 3);
   });
 
   test('handles TTL expiration', async (t: TestContext) => {
@@ -66,10 +66,10 @@ describe('LRUCacheWithTTL', () => {
     cache.set('key', 123);
 
     // Assert
-    t.assert.equal(cache.get('key'), 123);
+    t.assert.strictEqual(cache.get('key'), 123);
 
     await new Promise((resolve) => setTimeout(resolve, 150));
-    t.assert.equal(cache.get('key'), undefined);
+    t.assert.strictEqual(cache.get('key'), undefined);
   });
 
   test('custom TTL per entry', async (t: TestContext) => {
@@ -85,8 +85,8 @@ describe('LRUCacheWithTTL', () => {
     await new Promise((resolve) => setTimeout(resolve, 150));
 
     // Assert
-    t.assert.equal(cache.get('short'), undefined);
-    t.assert.equal(cache.get('long'), 2);
+    t.assert.strictEqual(cache.get('short'), undefined);
+    t.assert.strictEqual(cache.get('long'), 2);
   });
 
   test('has() method', (t: TestContext) => {
@@ -99,8 +99,8 @@ describe('LRUCacheWithTTL', () => {
     cache.set('key', 123);
 
     // Assert
-    t.assert.equal(cache.has('key'), true);
-    t.assert.equal(cache.has('missing'), false);
+    t.assert.strictEqual(cache.has('key'), true);
+    t.assert.strictEqual(cache.has('missing'), false);
   });
 
   test('delete() method', (t: TestContext) => {
@@ -113,9 +113,9 @@ describe('LRUCacheWithTTL', () => {
     cache.set('key', 123);
 
     // Assert
-    t.assert.equal(cache.delete('key'), true);
-    t.assert.equal(cache.get('key'), undefined);
-    t.assert.equal(cache.delete('missing'), false);
+    t.assert.strictEqual(cache.delete('key'), true);
+    t.assert.strictEqual(cache.get('key'), undefined);
+    t.assert.strictEqual(cache.delete('missing'), false);
   });
 
   test('clear() method', (t: TestContext) => {
@@ -130,8 +130,8 @@ describe('LRUCacheWithTTL', () => {
     cache.clear();
 
     // Assert
-    t.assert.equal(cache.size, 0);
-    t.assert.equal(cache.get('a'), undefined);
+    t.assert.strictEqual(cache.size, 0);
+    t.assert.strictEqual(cache.get('a'), undefined);
   });
 
   test('shift() method', (t: TestContext) => {
@@ -147,8 +147,8 @@ describe('LRUCacheWithTTL', () => {
     const shifted = cache.shift();
 
     // Assert
-    t.assert.equal(shifted?.at(1), 1);
-    t.assert.equal(cache.get('a'), undefined);
+    t.assert.strictEqual(shifted?.at(1), 1);
+    t.assert.strictEqual(cache.get('a'), undefined);
   });
 
   test('no automatic cleanup when stayAlive is false', async (t: TestContext) => {
@@ -175,8 +175,8 @@ describe('LRUCacheWithTTL', () => {
     t.mock.timers.tick(1001);
 
     // Assert
-    t.assert.equal(cache.size, 1);
-    t.assert.equal(cache.get('key'), undefined);
+    t.assert.strictEqual(cache.size, 1);
+    t.assert.strictEqual(cache.get('key'), undefined);
     cache.cancelCleanupTimer();
   });
 
@@ -204,8 +204,8 @@ describe('LRUCacheWithTTL', () => {
     t.mock.timers.tick(1001);
 
     // Assert
-    t.assert.equal(cache.size, 0);
-    t.assert.equal(cache.get('key'), undefined);
+    t.assert.strictEqual(cache.size, 0);
+    t.assert.strictEqual(cache.get('key'), undefined);
     cache.cancelCleanupTimer();
   });
 
@@ -220,10 +220,10 @@ describe('LRUCacheWithTTL', () => {
     cache.set('b', 2);
 
     // Assert
-    t.assert.equal(cache.size, 2);
+    t.assert.strictEqual(cache.size, 2);
     cache.delete('a');
-    t.assert.equal(cache.size, 1);
+    t.assert.strictEqual(cache.size, 1);
     cache.clear();
-    t.assert.equal(cache.size, 0);
+    t.assert.strictEqual(cache.size, 0);
   });
 });

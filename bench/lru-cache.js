@@ -3,6 +3,7 @@ import { run, bench } from 'mitata';
 import { LRUCache } from '../dist/index.js';
 
 const lru = new LRUCache({ maxSize: 2 });
+
 const value = 3;
 
 bench('lru cache set', () => lru.set('key-1', value)).gc('inner');
