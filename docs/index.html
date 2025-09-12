@@ -8,6 +8,17 @@
 <li>🧑‍💻 100% TypeScript, ESM &amp; CJS compatible</li>
 <li>🧪 Simple, robust API for all Node.js projects</li>
 </ul>
+<h2 id="table-of-contents" class="tsd-anchor-link">Table of Contents<a href="#table-of-contents" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li><a href="#-performance-comparison">Performance Comparison</a></li>
+<li><a href="#%EF%B8%8F-performance-limits-by-backend">Performance limits by backend</a></li>
+<li><a href="#install">Install</a></li>
+<li><a href="#setup">Setup</a></li>
+<li><a href="#documentation">Documentation</a></li>
+<li><a href="#usage-examples">Usage Examples</a></li>
+<li><a href="#diagrams">Diagrams</a></li>
+<li><a href="#use-cases">Use Cases</a></li>
+<li><a href="#references">References</a></li>
+</ul>
 <h2 id="install" class="tsd-anchor-link">Install<a href="#install" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">i</span><span class="hl-1"> </span><span class="hl-2">@stephen-shopopop/cache</span>
 </code><button type="button">Copy</button></pre>
 
@@ -24,7 +35,8 @@
 <h3 id="commonjs" class="tsd-anchor-link">CommonJS<a href="#commonjs" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><pre><code class="js"><span class="hl-5">const</span><span class="hl-1"> { </span><span class="hl-6">LRUCache</span><span class="hl-1"> } = </span><span class="hl-0">require</span><span class="hl-1">(</span><span class="hl-2">&#39;@stephen-shopopop/cache&#39;</span><span class="hl-1">);</span>
 </code><button type="button">Copy</button></pre>
 
-<h2 id="documentation" class="tsd-anchor-link">Documentation<a href="#documentation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><h3 id="main-classes" class="tsd-anchor-link">Main Classes<a href="#main-classes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><h4 id="lrucache" class="tsd-anchor-link"><code>LRUCache&lt;K, V&gt;</code><a href="#lrucache" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>A fast in-memory Least Recently Used (LRU) cache. Removes the least recently used item when the maximum size is reached.</p>
+<h2 id="documentation" class="tsd-anchor-link">Documentation<a href="#documentation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Full API documentation is available here: <a href="https://stephen-shopopop.github.io/node-cache/">📚 Generated Docs</a></p>
+<h3 id="main-classes" class="tsd-anchor-link">Main Classes<a href="#main-classes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><h4 id="lrucache" class="tsd-anchor-link">LRUCache&lt;K, V&gt;<a href="#lrucache" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>A fast in-memory Least Recently Used (LRU) cache. Removes the least recently used item when the maximum size is reached.</p>
 <ul>
 <li>
 <p><strong>Constructor:</strong></p>
@@ -44,7 +56,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="lrucachewithttl" class="tsd-anchor-link"><code>LRUCacheWithTTL&lt;K, V&gt;</code><a href="#lrucachewithttl" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>LRU cache with automatic expiration (TTL) for entries. Combines LRU eviction and time-based expiration.</p>
+<h4 id="lrucachewithttl" class="tsd-anchor-link">LRUCacheWithTTL&lt;K, V&gt;<a href="#lrucachewithttl" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>LRU cache with automatic expiration (TTL) for entries. Combines LRU eviction and time-based expiration.</p>
 <ul>
 <li>
 <p><strong>Constructor:</strong></p>
@@ -64,7 +76,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="memorycachestore" class="tsd-anchor-link"><code>MemoryCacheStore&lt;K, Metadata&gt;</code><a href="#memorycachestore" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>In-memory cache with LRU policy, supports max size, max entry size, max number of entries, and associated metadata.</p>
+<h4 id="memorycachestore" class="tsd-anchor-link">MemoryCacheStore&lt;K, Metadata&gt;<a href="#memorycachestore" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>In-memory cache with LRU policy, supports max size, max entry size, max number of entries, and associated metadata.</p>
 <ul>
 <li>
 <p><strong>Constructor:</strong></p>
@@ -85,7 +97,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="sqlitecachestore" class="tsd-anchor-link"><code>SQLiteCacheStore&lt;Metadata&gt;</code><a href="#sqlitecachestore" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Persistent cache using SQLite as backend, supports metadata, TTL, entry size and count limits.</p>
+<h4 id="sqlitecachestore" class="tsd-anchor-link">SQLiteCacheStore<Metadata><a href="#sqlitecachestore" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Persistent cache using SQLite as backend, supports metadata, TTL, entry size and count limits.</p>
 <ul>
 <li>
 <p><strong>Constructor:</strong></p>
@@ -96,14 +108,28 @@
 <li>
 <p><strong>Methods:</strong></p>
 <ul>
-<li><code>set(key, value, metadata?, ttl?)</code>: Add a value (string or Buffer) with metadata and optional TTL</li>
-<li><code>get(key)</code>: Retrieve <code>{ value, metadata }</code> or undefined</li>
-<li><code>delete(key)</code>: Remove a key</li>
-<li><code>size</code>: Number of items</li>
-<li><code>close()</code>: Close the database connection</li>
+<li>
+<p><code>set(key, value, metadata?, ttl?)</code>: Add a value (string or Buffer) with metadata and optional TTL</p>
+</li>
+<li>
+<p><code>get(key)</code>: Retrieve <code>{ value, metadata }</code> or undefined</p>
+</li>
+<li>
+<p><code>delete(key)</code>: Remove a key</p>
+</li>
+<li>
+<p><code>size</code>: Number of items</p>
+</li>
+<li>
+<p><code>close()</code>: Close the database connection</p>
+</li>
 </ul>
 </li>
 </ul>
+<blockquote>
+<p><strong>Note:</strong> SQLiteCacheStore methods may throw errors related to SQLite (connection, query, file access, etc.).
+It is the responsibility of the user to handle these errors (e.g., with try/catch) according to their application's needs. The library does not catch or wrap SQLite errors by design.</p>
+</blockquote>
 <h3 id="common-options" class="tsd-anchor-link">Common Options<a href="#common-options" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
 <li>
 <p><code>maxSize</code>: max number of items (LRUCache, LRUCacheWithTTL), max total size in bytes (MemoryCacheStore)</p>
@@ -224,7 +250,162 @@ Eviction: LRU policy applies when maxSize is reached.
 <li><strong>Rate limiting</strong>: Track and limit user actions over time using TTL-based caches.</li>
 <li><strong>Temporary feature flags</strong>: Store and expire feature flags or toggles dynamically.</li>
 </ul>
+<h2 id="📊-performance-comparison" class="tsd-anchor-link">📊 Performance Comparison<a href="#📊-performance-comparison" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><blockquote>
+<p><strong>Note:</strong> Results below are indicative and may vary depending on your hardware and Node.js version. Run <code>npm run bench</code> for up-to-date results on your machine.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Store</th>
+<th>set (ops/s)</th>
+<th>get (ops/s)</th>
+<th>delete (ops/s)</th>
+<th>complex workflow (ops/s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LRUCache</td>
+<td>1,082,000</td>
+<td>1,870,000</td>
+<td>1,060,000</td>
+<td>629,000</td>
+</tr>
+<tr>
+<td>LRUCacheWithTTL</td>
+<td>943,000</td>
+<td>1,670,000</td>
+<td>950,000</td>
+<td>591,000</td>
+</tr>
+<tr>
+<td>MemoryCacheStore</td>
+<td>1,059,000</td>
+<td>1,870,000</td>
+<td>177,600</td>
+<td>292,000</td>
+</tr>
+<tr>
+<td>SQLiteCacheStore (mem)</td>
+<td>110,000</td>
+<td>430,000</td>
+<td>137,000</td>
+<td>50,700</td>
+</tr>
+<tr>
+<td>SQLiteCacheStore (file)</td>
+<td>49,000</td>
+<td>47,000</td>
+<td>135,000</td>
+<td>45,900</td>
+</tr>
+</tbody>
+</table>
+<p><em>Bench run on Apple M1, Node.js 24.7.0, <code>npm run bench</code> — complex workflow = set, get, update, delete, hit/miss, TTL, metadata.</em></p>
+<p><em>Bench run on Apple M1, Node.js 24.7.0, <code>npm run bench</code></em></p>
+<h2 id="⚠️-performance-limits-by-backend" class="tsd-anchor-link">⚠️ Performance limits by backend<a href="#⚠️-performance-limits-by-backend" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Each backend has different performance characteristics and is suited for different use cases:</p>
+<table>
+<thead>
+<tr>
+<th>Backend</th>
+<th>Typical use case</th>
+<th>Max ops/s (indicative)</th>
+<th>Latency (typical)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LRUCache</td>
+<td>Hot-path, ultra-fast in-memory</td>
+<td>&gt;1,000,000</td>
+<td>&lt;2µs</td>
+<td>No persistence, no TTL</td>
+</tr>
+<tr>
+<td>LRUCacheWithTTL</td>
+<td>In-memory with expiration</td>
+<td>&gt;1,000,000</td>
+<td>&lt;2µs</td>
+<td>TTL adds slight overhead</td>
+</tr>
+<tr>
+<td>MemoryCacheStore</td>
+<td>In-memory, metadata, size limit</td>
+<td>~1,000,000</td>
+<td>&lt;2µs</td>
+<td>Metadata, size/count limits</td>
+</tr>
+<tr>
+<td>SQLiteCacheStore (mem)</td>
+<td>Fast, ephemeral persistence</td>
+<td>~100,000</td>
+<td>~10µs</td>
+<td>Data lost on restart</td>
+</tr>
+<tr>
+<td>SQLiteCacheStore (file)</td>
+<td>Durable persistence</td>
+<td>~50,000</td>
+<td>~20–50µs</td>
+<td>Disk I/O, best for cold data</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Guidance:</strong></p>
+<ul>
+<li>Use LRUCache/LRUCacheWithTTL for ultra-low-latency, high-throughput scenarios (API cache, session, etc.).</li>
+<li>Use MemoryCacheStore if you need metadata or strict size limits.</li>
+<li>Use SQLiteCacheStore (memory) for fast, non-persistent cache across processes.</li>
+<li>Use SQLiteCacheStore (file) for persistent cache, but expect higher latency due to disk I/O.</li>
+</ul>
+<p><em>Numbers are indicative, measured sur Apple M1, Node.js 24.x. Always benchmark on your own hardware for production sizing.</em></p>
+<h2 id="faq--troubleshooting" class="tsd-anchor-link">FAQ / Troubleshooting<a href="#faq--troubleshooting" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><h3 id="why-is-sqlitecachestore-slower-than-in-memory-caches" class="tsd-anchor-link">Why is SQLiteCacheStore slower than in-memory caches?<a href="#why-is-sqlitecachestore-slower-than-in-memory-caches" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>SQLite is a disk-based database. Even with optimizations (WAL, memory temp store), disk I/O and serialization add latency compared to pure in-memory caches. For ultra-low-latency needs, use LRUCache or MemoryCacheStore.</p>
+<h3 id="how-can-i-enable-observability-tracingmetrics" class="tsd-anchor-link">How can I enable observability (tracing/metrics)?<a href="#how-can-i-enable-observability-tracingmetrics" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>You can instrument the library using <a href="https://www.npmjs.com/package/diagnostic-channel">diagnostic_channel</a> (Node.js). Future versions may provide built-in hooks. For now, you can wrap cache methods or use diagnostic_channel in your own code to publish events on cache operations.</p>
+<h3 id="i-get-experimentalwarning-sqlite-is-an-experimental-feature" class="tsd-anchor-link">I get “ExperimentalWarning: SQLite is an experimental feature”<a href="#i-get-experimentalwarning-sqlite-is-an-experimental-feature" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>This warning is from Node.js itself (v20+). SQLite support is stable for most use cases, but the API may change in future Node.js versions. Follow Node.js release notes for updates.</p>
+<h3 id="how-do-i-handle-errors-from-sqlitecachestore" class="tsd-anchor-link">How do I handle errors from SQLiteCacheStore?<a href="#how-do-i-handle-errors-from-sqlitecachestore" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>All errors from SQLite (connection, query, file access) are thrown as-is. You should use try/catch around your cache operations and handle errors according to your application’s needs.</p>
+<h3 id="can-i-use-this-library-in-a-serverless-environment" class="tsd-anchor-link">Can I use this library in a serverless environment?<a href="#can-i-use-this-library-in-a-serverless-environment" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Yes, but persistent caches (SQLiteCacheStore with file) may not be suitable for ephemeral file systems. Use in-memory caches for stateless/serverless workloads.</p>
+<h2 id="🤝-contributing--development" class="tsd-anchor-link">🤝 Contributing / Development<a href="#🤝-contributing--development" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Want to contribute to this library? Thank you! Here’s what you need to know to get started:</p>
+<h3 id="prerequisites" class="tsd-anchor-link">Prerequisites<a href="#prerequisites" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li>Node.js &gt;= 20.17.0</li>
+<li>pnpm or npm (package manager)</li>
+<li>TypeScript (strictly typed everywhere)</li>
+</ul>
+<h3 id="project-setup" class="tsd-anchor-link">Project Setup<a href="#project-setup" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><pre><code class="bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">clone</span><span class="hl-1"> </span><span class="hl-2">https://github.com/stephen-shopopop/node-cache.git</span><br/><span class="hl-0">cd</span><span class="hl-1"> </span><span class="hl-2">node-cache</span><br/><span class="hl-0">pnpm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-9"># or npm install</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="useful-scripts" class="tsd-anchor-link">Useful Scripts<a href="#useful-scripts" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li><code>npm run build</code>: build TypeScript (ESM + CJS via tsup)</li>
+<li><code>npm run test</code>: run all tests (node:test)</li>
+<li><code>npm run lint</code>: check lint (biome)</li>
+<li><code>npm run format</code>: format code</li>
+<li><code>npm run check</code>: type check</li>
+<li><code>npm run bench</code>: run benchmarks</li>
+<li><code>npm run docs</code>: generate documentation (TypeDoc)</li>
+</ul>
+<h3 id="project-structure" class="tsd-anchor-link">Project Structure<a href="#project-structure" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li><code>src/library/</code>: main source code (all cache classes)</li>
+<li><code>src/index.ts</code>: entry point</li>
+<li><code>test/</code>: all unit tests (node:test)</li>
+<li><code>bench/</code>: benchmarks (mitata)</li>
+<li><code>docs/</code>: generated documentation</li>
+</ul>
+<h3 id="best-practices" class="tsd-anchor-link">Best Practices<a href="#best-practices" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li>Follow the style: semicolons, single quotes, arrow functions for callbacks</li>
+<li>Avoid nested ternary operators</li>
+<li>Always add tests for any new feature or bugfix</li>
+<li>PRs and code reviews are in French</li>
+</ul>
+<h3 id="before-submitting-a-pr" class="tsd-anchor-link">Before Submitting a PR<a href="#before-submitting-a-pr" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ol>
+<li>Make sure all tests pass (<code>npm run test</code>)</li>
+<li>Check lint and formatting (<code>npm run lint &amp;&amp; npm run format</code>)</li>
+<li>Check coverage (<code>npm run test -- --coverage</code>)</li>
+<li>Add/complete documentation if needed</li>
+<li>Clearly describe your contribution in the PR</li>
+</ol>
+<h3 id="need-help" class="tsd-anchor-link">Need help?<a href="#need-help" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Open an issue or contact the maintainer via GitHub.</p>
+<hr>
 <h2 id="references" class="tsd-anchor-link">References<a href="#references" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
 <li><a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)">Least Recently Used (LRU) cache - Wikipedia</a></li>
 </ul>
-</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#node-cache"><span>node-<wbr/>cache</span></a><ul><li><a href="#install"><span>Install</span></a></li><li><a href="#setup"><span>Setup</span></a></li><li><ul><li><a href="#esm"><span>ESM</span></a></li><li><a href="#commonjs"><span>Common<wbr/>JS</span></a></li></ul></li><li><a href="#documentation"><span>Documentation</span></a></li><li><ul><li><a href="#main-classes"><span>Main <wbr/>Classes</span></a></li><li><ul><li><a href="#lrucache"><span>LRU<wbr/>Cache&lt;<wbr/>K, <wbr/>V&gt;</span></a></li><li><a href="#lrucachewithttl"><span>LRU<wbr/>Cache<wbr/>With<wbr/>TTL&lt;<wbr/>K, <wbr/>V&gt;</span></a></li><li><a href="#memorycachestore"><span>Memory<wbr/>Cache<wbr/>Store&lt;<wbr/>K, <wbr/>Metadata&gt;</span></a></li><li><a href="#sqlitecachestore"><span>SQ<wbr/>Lite<wbr/>Cache<wbr/>Store&lt;<wbr/>Metadata&gt;</span></a></li></ul></li><li><a href="#common-options"><span>Common <wbr/>Options</span></a></li><li><a href="#usage-examples"><span>Usage <wbr/>Examples</span></a></li><li><a href="#lru-cache---ascii-diagram"><span>LRU <wbr/>Cache -<wbr/> <wbr/>ASCII <wbr/>Diagram</span></a></li><li><a href="#memorycachestore---ascii-diagram"><span>Memory<wbr/>Cache<wbr/>Store -<wbr/> <wbr/>ASCII <wbr/>Diagram</span></a></li><li><a href="#sqlitecachestore---ascii-diagram"><span>SQ<wbr/>Lite<wbr/>Cache<wbr/>Store -<wbr/> <wbr/>ASCII <wbr/>Diagram</span></a></li><li><a href="#lrucachewithttl---ascii-diagram"><span>LRU<wbr/>Cache<wbr/>With<wbr/>TTL -<wbr/> <wbr/>ASCII <wbr/>Diagram</span></a></li></ul></li><li><a href="#use-cases"><span>Use <wbr/>Cases</span></a></li><li><a href="#references"><span>References</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html">@stephen-shopopop/cache</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#node-cache"><span>node-<wbr/>cache</span></a><ul><li><a href="#table-of-contents"><span>Table of <wbr/>Contents</span></a></li><li><a href="#install"><span>Install</span></a></li><li><a href="#setup"><span>Setup</span></a></li><li><ul><li><a href="#esm"><span>ESM</span></a></li><li><a href="#commonjs"><span>Common<wbr/>JS</span></a></li></ul></li><li><a href="#documentation"><span>Documentation</span></a></li><li><ul><li><a href="#main-classes"><span>Main <wbr/>Classes</span></a></li><li><ul><li><a href="#lrucache"><span>LRU<wbr/>Cache&lt;<wbr/>K, <wbr/>V&gt;</span></a></li><li><a href="#lrucachewithttl"><span>LRU<wbr/>Cache<wbr/>With<wbr/>TTL&lt;<wbr/>K, <wbr/>V&gt;</span></a></li><li><a href="#memorycachestore"><span>Memory<wbr/>Cache<wbr/>Store&lt;<wbr/>K, <wbr/>Metadata&gt;</span></a></li><li><a href="#sqlitecachestore"><span>SQ<wbr/>Lite<wbr/>Cache<wbr/>Store&lt;<wbr/>Metadata&gt;</span></a></li></ul></li><li><a href="#common-options"><span>Common <wbr/>Options</span></a></li><li><a href="#usage-examples"><span>Usage <wbr/>Examples</span></a></li><li><a href="#lru-cache---ascii-diagram"><span>LRU <wbr/>Cache -<wbr/> <wbr/>ASCII <wbr/>Diagram</span></a></li><li><a href="#memorycachestore---ascii-diagram"><span>Memory<wbr/>Cache<wbr/>Store -<wbr/> <wbr/>ASCII <wbr/>Diagram</span></a></li><li><a href="#sqlitecachestore---ascii-diagram"><span>SQ<wbr/>Lite<wbr/>Cache<wbr/>Store -<wbr/> <wbr/>ASCII <wbr/>Diagram</span></a></li><li><a href="#lrucachewithttl---ascii-diagram"><span>LRU<wbr/>Cache<wbr/>With<wbr/>TTL -<wbr/> <wbr/>ASCII <wbr/>Diagram</span></a></li></ul></li><li><a href="#use-cases"><span>Use <wbr/>Cases</span></a></li><li><a href="#📊-performance-comparison"><span>📊 <wbr/>Performance <wbr/>Comparison</span></a></li><li><a href="#⚠️-performance-limits-by-backend"><span>⚠️ <wbr/>Performance limits by backend</span></a></li><li><a href="#faq--troubleshooting"><span>FAQ / <wbr/>Troubleshooting</span></a></li><li><ul><li><a href="#why-is-sqlitecachestore-slower-than-in-memory-caches"><span>Why is <wbr/>SQ<wbr/>Lite<wbr/>Cache<wbr/>Store slower than in-<wbr/>memory caches?</span></a></li><li><a href="#how-can-i-enable-observability-tracingmetrics"><span>How can <wbr/>I enable observability (tracing/metrics)?</span></a></li><li><a href="#i-get-experimentalwarning-sqlite-is-an-experimental-feature"><span>I get “<wbr/>Experimental<wbr/>Warning: <wbr/>SQ<wbr/>Lite is an experimental feature”</span></a></li><li><a href="#how-do-i-handle-errors-from-sqlitecachestore"><span>How do <wbr/>I handle errors from <wbr/>SQ<wbr/>Lite<wbr/>Cache<wbr/>Store?</span></a></li><li><a href="#can-i-use-this-library-in-a-serverless-environment"><span>Can <wbr/>I use this library in a serverless environment?</span></a></li></ul></li><li><a href="#🤝-contributing--development"><span>🤝 <wbr/>Contributing / <wbr/>Development</span></a></li><li><ul><li><a href="#prerequisites"><span>Prerequisites</span></a></li><li><a href="#project-setup"><span>Project <wbr/>Setup</span></a></li><li><a href="#useful-scripts"><span>Useful <wbr/>Scripts</span></a></li><li><a href="#project-structure"><span>Project <wbr/>Structure</span></a></li><li><a href="#best-practices"><span>Best <wbr/>Practices</span></a></li><li><a href="#before-submitting-a-pr"><span>Before <wbr/>Submitting a <wbr/>PR</span></a></li><li><a href="#need-help"><span>Need help?</span></a></li></ul></li><li><a href="#references"><span>References</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html">@stephen-shopopop/cache</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>

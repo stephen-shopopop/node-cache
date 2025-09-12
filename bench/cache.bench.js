@@ -140,6 +140,58 @@ bench('SQLiteCacheStore (memory): delete (missing)', () => {
 }).gc('inner');
 
 //
+// === Complex workflow benchmark (realistic scenario) ===
+//
+function randomKey() {
+  return `k-${Math.floor(Math.random() * 1000)}`;
+}
+
+bench('LRUCache: complex workflow', () => {
+  const k = randomKey();
+  cacheLRU.set(k, Math.random());
+  cacheLRU.get(k);
+  cacheLRU.set('foo', Math.random());
+  cacheLRU.delete('foo');
+  cacheLRU.get('notfound');
+}).gc('inner');
+
+bench('LRUCacheWithTTL: complex workflow', () => {
+  const k = randomKey();
+  cacheTTL.set(k, Math.random(), 1000);
+  cacheTTL.get(k);
+  cacheTTL.set('foo', Math.random(), 500);
+  cacheTTL.delete('foo');
+  cacheTTL.get('notfound');
+}).gc('inner');
+
+bench('MemoryCacheStore: complex workflow', () => {
+  const k = randomKey();
+  cacheMem.set(k, 'val', { meta: Math.random() });
+  cacheMem.get(k);
+  cacheMem.set('foo', 'val', { meta: 1 });
+  cacheMem.delete('foo');
+  cacheMem.get('notfound');
+}).gc('inner');
+
+bench('SQLiteCacheStore: complex workflow', () => {
+  const k = randomKey();
+  cacheSqlite.set(k, 'val', { meta: Math.random() }, 1000);
+  cacheSqlite.get(k);
+  cacheSqlite.set('foo', 'val', { meta: 1 }, 500);
+  cacheSqlite.delete('foo');
+  cacheSqlite.get('notfound');
+}).gc('inner');
+
+bench('SQLiteCacheStore (memory): complex workflow', () => {
+  const k = randomKey();
+  cacheSqliteMem.set(k, 'val', { meta: Math.random() }, 1000);
+  cacheSqliteMem.get(k);
+  cacheSqliteMem.set('foo', 'val', { meta: 1 }, 500);
+  cacheSqliteMem.delete('foo');
+  cacheSqliteMem.get('notfound');
+}).gc('inner');
+
+//
 // === Run benchmarks and cleanup ===
 //
 await run();

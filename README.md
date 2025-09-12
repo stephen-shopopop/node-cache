@@ -11,6 +11,18 @@ A high-performance, strongly-typed caching library for Node.js, supporting in-me
 - 🧑‍💻 100% TypeScript, ESM & CJS compatible
 - 🧪 Simple, robust API for all Node.js projects
 
+## Table of Contents
+
+- [Performance Comparison](#-performance-comparison)
+- [Performance limits by backend](#️-performance-limits-by-backend)
+- [Install](#install)
+- [Setup](#setup)
+- [Documentation](#documentation)
+- [Usage Examples](#usage-examples)
+- [Diagrams](#diagrams)
+- [Use Cases](#use-cases)
+- [References](#references)
+
 ## Install
 
 ```bash
@@ -40,9 +52,11 @@ const { LRUCache } = require('@stephen-shopopop/cache');
 
 ## Documentation
 
+Full API documentation is available here: [📚 Generated Docs](https://stephen-shopopop.github.io/node-cache/)
+
 ### Main Classes
 
-#### `LRUCache<K, V>`
+#### LRUCache<K, V>
 
 A fast in-memory Least Recently Used (LRU) cache. Removes the least recently used item when the maximum size is reached.
 
@@ -60,7 +74,7 @@ A fast in-memory Least Recently Used (LRU) cache. Removes the least recently use
   - `has(key)`: Check if a key exists
   - `size`: Number of items
 
-#### `LRUCacheWithTTL<K, V>`
+#### LRUCacheWithTTL<K, V>
 
 LRU cache with automatic expiration (TTL) for entries. Combines LRU eviction and time-based expiration.
 
@@ -78,7 +92,7 @@ LRU cache with automatic expiration (TTL) for entries. Combines LRU eviction and
   - `has(key)`: Check if a key exists
   - `size`: Number of items
 
-#### `MemoryCacheStore<K, Metadata>`
+#### MemoryCacheStore<K, Metadata>
 
 In-memory cache with LRU policy, supports max size, max entry size, max number of entries, and associated metadata.
 
@@ -97,7 +111,7 @@ In-memory cache with LRU policy, supports max size, max entry size, max number o
   - `size`: Number of items
   - `byteSize`: Total size in bytes
 
-#### `SQLiteCacheStore<Metadata>`
+#### SQLiteCacheStore<Metadata>
 
 Persistent cache using SQLite as backend, supports metadata, TTL, entry size and count limits.
 
@@ -112,7 +126,11 @@ Persistent cache using SQLite as backend, supports metadata, TTL, entry size and
   - `get(key)`: Retrieve `{ value, metadata }` or undefined
   - `delete(key)`: Remove a key
   - `size`: Number of items
+
   - `close()`: Close the database connection
+
+> **Note:** SQLiteCacheStore methods may throw errors related to SQLite (connection, query, file access, etc.).
+> It is the responsibility of the user to handle these errors (e.g., with try/catch) according to their application's needs. The library does not catch or wrap SQLite errors by design.
 
 ### Common Options
 
@@ -254,6 +272,122 @@ Eviction: LRU policy applies when maxSize is reached.
 - **Persistent job queue**: Use SQLiteCacheStore to persist jobs or tasks between server restarts.
 - **Rate limiting**: Track and limit user actions over time using TTL-based caches.
 - **Temporary feature flags**: Store and expire feature flags or toggles dynamically.
+
+## 📊 Performance Comparison
+
+> **Note:** Results below are indicative and may vary depending on your hardware and Node.js version. Run `npm run bench` for up-to-date results on your machine.
+
+| Store                        | set (ops/s) | get (ops/s) | delete (ops/s) | complex workflow (ops/s) |
+|------------------------------|-------------|-------------|----------------|--------------------------|
+| LRUCache                     | 1,082,000   | 1,870,000   | 1,060,000      | 629,000                  |
+| LRUCacheWithTTL              |   943,000   | 1,670,000   |  950,000       | 591,000                  |
+| MemoryCacheStore             | 1,059,000   | 1,870,000   |  177,600       | 292,000                  |
+| SQLiteCacheStore (mem)       |   110,000   |   430,000   |  137,000       | 50,700                   |
+| SQLiteCacheStore (file)      |    49,000   |    47,000   |  135,000       | 45,900                   |
+
+*Bench run on Apple M1, Node.js 24.7.0, `npm run bench` — complex workflow = set, get, update, delete, hit/miss, TTL, metadata.*
+
+*Bench run on Apple M1, Node.js 24.7.0, `npm run bench`*
+
+## ⚠️ Performance limits by backend
+
+Each backend has different performance characteristics and is suited for different use cases:
+
+| Backend                | Typical use case                | Max ops/s (indicative) | Latency (typical) | Notes |
+|------------------------|---------------------------------|------------------------|-------------------|-------|
+| LRUCache               | Hot-path, ultra-fast in-memory  | >1,000,000             | <2µs              | No persistence, no TTL |
+| LRUCacheWithTTL        | In-memory with expiration       | >1,000,000             | <2µs              | TTL adds slight overhead |
+| MemoryCacheStore       | In-memory, metadata, size limit | ~1,000,000             | <2µs              | Metadata, size/count limits |
+| SQLiteCacheStore (mem) | Fast, ephemeral persistence     | ~100,000               | ~10µs             | Data lost on restart |
+| SQLiteCacheStore (file)| Durable persistence             | ~50,000                | ~20–50µs          | Disk I/O, best for cold data |
+
+**Guidance:**
+
+- Use LRUCache/LRUCacheWithTTL for ultra-low-latency, high-throughput scenarios (API cache, session, etc.).
+- Use MemoryCacheStore if you need metadata or strict size limits.
+- Use SQLiteCacheStore (memory) for fast, non-persistent cache across processes.
+- Use SQLiteCacheStore (file) for persistent cache, but expect higher latency due to disk I/O.
+
+*Numbers are indicative, measured sur Apple M1, Node.js 24.x. Always benchmark on your own hardware for production sizing.*
+
+## FAQ / Troubleshooting
+
+### Why is SQLiteCacheStore slower than in-memory caches?
+
+SQLite is a disk-based database. Even with optimizations (WAL, memory temp store), disk I/O and serialization add latency compared to pure in-memory caches. For ultra-low-latency needs, use LRUCache or MemoryCacheStore.
+
+### How can I enable observability (tracing/metrics)?
+
+You can instrument the library using [diagnostic_channel](https://www.npmjs.com/package/diagnostic-channel) (Node.js). Future versions may provide built-in hooks. For now, you can wrap cache methods or use diagnostic_channel in your own code to publish events on cache operations.
+
+### I get “ExperimentalWarning: SQLite is an experimental feature”
+
+This warning is from Node.js itself (v20+). SQLite support is stable for most use cases, but the API may change in future Node.js versions. Follow Node.js release notes for updates.
+
+### How do I handle errors from SQLiteCacheStore?
+
+All errors from SQLite (connection, query, file access) are thrown as-is. You should use try/catch around your cache operations and handle errors according to your application’s needs.
+
+### Can I use this library in a serverless environment?
+
+Yes, but persistent caches (SQLiteCacheStore with file) may not be suitable for ephemeral file systems. Use in-memory caches for stateless/serverless workloads.
+
+## 🤝 Contributing / Development
+
+Want to contribute to this library? Thank you! Here’s what you need to know to get started:
+
+### Prerequisites
+
+- Node.js >= 20.17.0
+- pnpm or npm (package manager)
+- TypeScript (strictly typed everywhere)
+
+### Project Setup
+
+```bash
+git clone https://github.com/stephen-shopopop/node-cache.git
+cd node-cache
+pnpm install # or npm install
+```
+
+### Useful Scripts
+
+- `npm run build`: build TypeScript (ESM + CJS via tsup)
+- `npm run test`: run all tests (node:test)
+- `npm run lint`: check lint (biome)
+- `npm run format`: format code
+- `npm run check`: type check
+- `npm run bench`: run benchmarks
+- `npm run docs`: generate documentation (TypeDoc)
+
+### Project Structure
+
+- `src/library/`: main source code (all cache classes)
+- `src/index.ts`: entry point
+- `test/`: all unit tests (node:test)
+- `bench/`: benchmarks (mitata)
+- `docs/`: generated documentation
+
+### Best Practices
+
+- Follow the style: semicolons, single quotes, arrow functions for callbacks
+- Avoid nested ternary operators
+- Always add tests for any new feature or bugfix
+- PRs and code reviews are in French
+
+### Before Submitting a PR
+
+1. Make sure all tests pass (`npm run test`)
+2. Check lint and formatting (`npm run lint && npm run format`)
+3. Check coverage (`npm run test -- --coverage`)
+4. Add/complete documentation if needed
+5. Clearly describe your contribution in the PR
+
+### Need help?
+
+Open an issue or contact the maintainer via GitHub.
+
+---
 
 ## References
 
