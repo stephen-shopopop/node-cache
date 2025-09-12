@@ -1,3 +1,5 @@
+[![CI](https://github.com/stephen-shopopop/node-cache/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/stephen-shopopop/node-cache/actions/workflows/ci.yml)
+
 # node-cache
 
 Cache implementation for nodeJs
