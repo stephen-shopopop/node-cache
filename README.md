@@ -2,7 +2,14 @@
 
 # node-cache
 
-Cache implementation for nodeJs
+A high-performance, strongly-typed caching library for Node.js, supporting in-memory (LRU, TTL), metadata, and persistent SQLite backends. Designed for reliability, flexibility, and modern TypeScript/ESM workflows.
+
+- ⚡️ Fast in-memory LRU and TTL caches
+- 🗃️ Persistent cache with SQLite backend
+- 🏷️ Metadata support for all entries
+- 📏 Size and entry count limits
+- 🧑‍💻 100% TypeScript, ESM & CJS compatible
+- 🧪 Simple, robust API for all Node.js projects
 
 ## Install
 
@@ -10,11 +17,26 @@ Cache implementation for nodeJs
 npm i @stephen-shopopop/cache
 ```
 
-## Usage
+## Setup
 
-### javascript
+This library requires no special configuration for basic usage.
 
-### typescript
+- Node.js >= 20.17.0
+- Compatible with both ESM (`import`) and CommonJS (`require`)
+- TypeScript types included
+- SQLiteCacheStore available on Node.js > 20.x
+
+### ESM
+
+```js
+import { LRUCache } from '@stephen-shopopop/cache';
+```
+
+### CommonJS
+
+```js
+const { LRUCache } = require('@stephen-shopopop/cache');
+```
 
 ## Documentation
 
@@ -127,4 +149,116 @@ sqlite.set('a', 'value', { meta: 123 }, 60000);
 const result = sqlite.get('a');
 ```
 
-## Reference
+### LRU Cache - ASCII Diagram
+
+```shell
+[Most Recent]   [   ...   ]   [Least Recent]
+    head  <->  node <-> ... <->  tail
+      |                          |
+      +---> {key,value}          +---> {key,value}
+
+Eviction: when maxSize is reached, 'tail' is removed (least recently used)
+Access:   accessed node is moved to 'head' (most recently used)
+```
+
+### MemoryCacheStore - ASCII Diagram
+
+```ascii
++-----------------------------+
+|        MemoryCacheStore     |
++-----------------------------+
+|  #data: LRUCache<K, Value>  |
+|  #maxCount                  |
+|  #maxEntrySize              |
+|  #maxSize                   |
+|  #size                      |
++-----------------------------+
+        |         |
+        |         +---> [maxCount, maxEntrySize, maxSize] constraints
+        |
+        +---> LRUCache (internal):
+                head <-> node <-> ... <-> tail
+                (evicts least recently used)
+
+Each entry:
+  {
+    key: K,
+    value: string | Buffer,
+    metadata: object,
+    size: number (bytes)
+  }
+
+Eviction: when maxCount or maxSize is reached, oldest/oversized entries are removed.
+```
+
+### SQLiteCacheStore - ASCII Diagram
+
+```ascii
++-----------------------------+
+|      SQLiteCacheStore       |
++-----------------------------+
+|  #db: SQLite database       |
+|  #maxCount                  |
+|  #maxEntrySize              |
+|  #timeout                   |
++-----------------------------+
+        |
+        +---> [SQLite file: cache.db]
+                |
+                +---> Table: cache_entries
+                        +-------------------------------+
+                        | key | value | metadata | ttl  |
+                        +-------------------------------+
+
+Each entry:
+  {
+    key: string,
+    value: string | Buffer,
+    metadata: object,
+    ttl: number (ms, optional)
+  }
+
+Eviction: when maxCount or maxEntrySize is reached, or TTL expires, entries are deleted from the table.
+Persistence: all data is stored on disk in the SQLite file.
+```
+
+### LRUCacheWithTTL - ASCII Diagram
+
+```ascii
++-----------------------------+
+|      LRUCacheWithTTL        |
++-----------------------------+
+|  #data: LRUCache<K, Entry>  |
+|  #ttl                       |
+|  #cleanupInterval           |
+|  #timer                     |
++-----------------------------+
+        |
+        +---> LRUCache (internal):
+                head <-> node <-> ... <-> tail
+                (evicts least recently used)
+
+Each entry:
+  {
+    key: K,
+    value: V,
+    expiresAt: number (timestamp, ms)
+  }
+
+Expiration: entries are removed when their TTL expires (checked on access or by cleanup timer).
+Eviction: LRU policy applies when maxSize is reached.
+```
+
+## Use Cases
+
+- **API response caching**: Reduce latency and external API calls by caching HTTP responses in memory or on disk.
+- **Session storage**: Store user sessions or tokens with TTL for automatic expiration.
+- **File or image cache**: Cache processed files, images, or buffers with size limits.
+- **Metadata tagging**: Attach custom metadata (timestamps, user info, tags) to each cache entry for advanced logic.
+- **Persistent job queue**: Use SQLiteCacheStore to persist jobs or tasks between server restarts.
+- **Rate limiting**: Track and limit user actions over time using TTL-based caches.
+- **Temporary feature flags**: Store and expire feature flags or toggles dynamically.
+
+## References
+
+- [Least Recently Used (LRU) cache - Wikipedia](https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU))
