@@ -24,61 +24,85 @@
 <h3 id="commonjs" class="tsd-anchor-link">CommonJS<a href="#commonjs" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><pre><code class="js"><span class="hl-5">const</span><span class="hl-1"> { </span><span class="hl-6">LRUCache</span><span class="hl-1"> } = </span><span class="hl-0">require</span><span class="hl-1">(</span><span class="hl-2">&#39;@stephen-shopopop/cache&#39;</span><span class="hl-1">);</span>
 </code><button type="button">Copy</button></pre>
 
-<h2 id="documentation" class="tsd-anchor-link">Documentation<a href="#documentation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><h3 id="main-classes" class="tsd-anchor-link">Main Classes<a href="#main-classes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><h4 id="lrucache" class="tsd-anchor-link"><code>LRUCache&lt;K, V&gt;</code><a href="#lrucache" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Simple LRU cache. Removes the least recently used item when the maximum size is reached.</p>
+<h2 id="documentation" class="tsd-anchor-link">Documentation<a href="#documentation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><h3 id="main-classes" class="tsd-anchor-link">Main Classes<a href="#main-classes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><h4 id="lrucache" class="tsd-anchor-link"><code>LRUCache&lt;K, V&gt;</code><a href="#lrucache" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>A fast in-memory Least Recently Used (LRU) cache. Removes the least recently used item when the maximum size is reached.</p>
+<ul>
+<li>
 <p><strong>Constructor:</strong></p>
 <pre><code class="typescript"><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">LRUCache</span><span class="hl-1">&lt;</span><span class="hl-7">K</span><span class="hl-1">, </span><span class="hl-7">V</span><span class="hl-1">&gt;({ maxSize?</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">number</span><span class="hl-1"> })</span>
 </code><button type="button">Copy</button></pre>
 
-<p><strong>Main methods:</strong></p>
+</li>
+<li>
+<p><strong>Methods:</strong></p>
 <ul>
-<li><code>set(key, value)</code>: add or update a value</li>
-<li><code>get(key)</code>: retrieve a value</li>
-<li><code>delete(key)</code>: remove a key</li>
-<li><code>clear()</code>: clear the cache</li>
-<li><code>has(key)</code>: check if a key exists</li>
-<li><code>size</code>: number of items</li>
+<li><code>set(key, value)</code>: Add or update a value</li>
+<li><code>get(key)</code>: Retrieve a value</li>
+<li><code>delete(key)</code>: Remove a key</li>
+<li><code>clear()</code>: Clear the cache</li>
+<li><code>has(key)</code>: Check if a key exists</li>
+<li><code>size</code>: Number of items</li>
 </ul>
-<h4 id="lrucachewithttl" class="tsd-anchor-link"><code>LRUCacheWithTTL&lt;K, V&gt;</code><a href="#lrucachewithttl" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>LRU cache with automatic expiration (TTL) for entries.</p>
+</li>
+</ul>
+<h4 id="lrucachewithttl" class="tsd-anchor-link"><code>LRUCacheWithTTL&lt;K, V&gt;</code><a href="#lrucachewithttl" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>LRU cache with automatic expiration (TTL) for entries. Combines LRU eviction and time-based expiration.</p>
+<ul>
+<li>
 <p><strong>Constructor:</strong></p>
 <pre><code class="typescript"><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">LRUCacheWithTTL</span><span class="hl-1">&lt;</span><span class="hl-7">K</span><span class="hl-1">, </span><span class="hl-7">V</span><span class="hl-1">&gt;({ maxSize?</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">number</span><span class="hl-1">, ttl?</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">number</span><span class="hl-1">, stayAlive?</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">boolean</span><span class="hl-1">, cleanupInterval?</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">number</span><span class="hl-1"> })</span>
 </code><button type="button">Copy</button></pre>
 
-<p><strong>Main methods:</strong></p>
+</li>
+<li>
+<p><strong>Methods:</strong></p>
 <ul>
-<li><code>set(key, value, ttl?)</code>: add a value with optional TTL</li>
-<li><code>get(key)</code>: retrieve a value (or undefined if expired)</li>
-<li><code>delete(key)</code>: remove a key</li>
-<li><code>clear()</code>: clear the cache</li>
-<li><code>has(key)</code>: check if a key exists</li>
-<li><code>size</code>: number of items</li>
+<li><code>set(key, value, ttl?)</code>: Add a value with optional TTL</li>
+<li><code>get(key)</code>: Retrieve a value (or undefined if expired)</li>
+<li><code>delete(key)</code>: Remove a key</li>
+<li><code>clear()</code>: Clear the cache</li>
+<li><code>has(key)</code>: Check if a key exists</li>
+<li><code>size</code>: Number of items</li>
+</ul>
+</li>
 </ul>
 <h4 id="memorycachestore" class="tsd-anchor-link"><code>MemoryCacheStore&lt;K, Metadata&gt;</code><a href="#memorycachestore" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>In-memory cache with LRU policy, supports max size, max entry size, max number of entries, and associated metadata.</p>
+<ul>
+<li>
 <p><strong>Constructor:</strong></p>
 <pre><code class="typescript"><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">MemoryCacheStore</span><span class="hl-1">&lt;</span><span class="hl-7">K</span><span class="hl-1">, </span><span class="hl-7">Metadata</span><span class="hl-1">&gt;({ maxCount?</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">number</span><span class="hl-1">, maxEntrySize?</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">number</span><span class="hl-1">, maxSize?</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">number</span><span class="hl-1"> })</span>
 </code><button type="button">Copy</button></pre>
 
-<p><strong>Main methods:</strong></p>
+</li>
+<li>
+<p><strong>Methods:</strong></p>
 <ul>
-<li><code>set(key, value, metadata?)</code>: add a value (string or Buffer) with metadata</li>
-<li><code>get(key)</code>: retrieve <code>{ value, metadata, size }</code> or undefined</li>
-<li><code>delete(key)</code>: remove a key</li>
-<li><code>clear()</code>: clear the cache</li>
-<li><code>has(key)</code>: check if a key exists</li>
-<li><code>size</code>: number of items</li>
-<li><code>byteSize</code>: total size in bytes</li>
+<li><code>set(key, value, metadata?)</code>: Add a value (string or Buffer) with metadata</li>
+<li><code>get(key)</code>: Retrieve <code>{ value, metadata, size }</code> or undefined</li>
+<li><code>delete(key)</code>: Remove a key</li>
+<li><code>clear()</code>: Clear the cache</li>
+<li><code>has(key)</code>: Check if a key exists</li>
+<li><code>size</code>: Number of items</li>
+<li><code>byteSize</code>: Total size in bytes</li>
+</ul>
+</li>
 </ul>
 <h4 id="sqlitecachestore" class="tsd-anchor-link"><code>SQLiteCacheStore&lt;Metadata&gt;</code><a href="#sqlitecachestore" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Persistent cache using SQLite as backend, supports metadata, TTL, entry size and count limits.</p>
+<ul>
+<li>
 <p><strong>Constructor:</strong></p>
 <pre><code class="typescript"><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">SQLiteCacheStore</span><span class="hl-1">&lt;</span><span class="hl-7">Metadata</span><span class="hl-1">&gt;({ filename?</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">string</span><span class="hl-1">, maxEntrySize?</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">number</span><span class="hl-1">, maxCount?</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">number</span><span class="hl-1">, timeout?</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-4">number</span><span class="hl-1"> })</span>
 </code><button type="button">Copy</button></pre>
 
-<p><strong>Main methods:</strong></p>
+</li>
+<li>
+<p><strong>Methods:</strong></p>
 <ul>
-<li><code>set(key, value, metadata?, ttl?)</code>: add a value (string or Buffer) with metadata and optional TTL</li>
-<li><code>get(key)</code>: retrieve <code>{ value, metadata }</code> or undefined</li>
-<li><code>delete(key)</code>: remove a key</li>
-<li><code>size</code>: number of items</li>
-<li><code>close()</code>: close the database connection</li>
+<li><code>set(key, value, metadata?, ttl?)</code>: Add a value (string or Buffer) with metadata and optional TTL</li>
+<li><code>get(key)</code>: Retrieve <code>{ value, metadata }</code> or undefined</li>
+<li><code>delete(key)</code>: Remove a key</li>
+<li><code>size</code>: Number of items</li>
+<li><code>close()</code>: Close the database connection</li>
+</ul>
+</li>
 </ul>
 <h3 id="common-options" class="tsd-anchor-link">Common Options<a href="#common-options" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
 <li>
