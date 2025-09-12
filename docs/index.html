@@ -9,15 +9,60 @@
 <li>🧪 Simple, robust API for all Node.js projects</li>
 </ul>
 <h2 id="table-of-contents" class="tsd-anchor-link">Table of Contents<a href="#table-of-contents" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
-<li><a href="#-performance-comparison">Performance Comparison</a></li>
-<li><a href="#%EF%B8%8F-performance-limits-by-backend">Performance limits by backend</a></li>
+<li><a href="#node-cache">node-cache</a>
+<ul>
+<li><a href="#table-of-contents">Table of Contents</a></li>
 <li><a href="#install">Install</a></li>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#documentation">Documentation</a></li>
+<li><a href="#setup">Setup</a>
+<ul>
+<li><a href="#esm">ESM</a></li>
+<li><a href="#commonjs">CommonJS</a></li>
+</ul>
+</li>
+<li><a href="#documentation">Documentation</a>
+<ul>
+<li><a href="#main-classes">Main Classes</a>
+<ul>
+<li><a href="#lrucachek-v">LRUCache&lt;K, V&gt;</a></li>
+<li><a href="#lrucachewithttlk-v">LRUCacheWithTTL&lt;K, V&gt;</a></li>
+<li><a href="#memorycachestorek-metadata">MemoryCacheStore&lt;K, Metadata&gt;</a></li>
+<li><a href="#sqlitecachestore">SQLiteCacheStore</a></li>
+</ul>
+</li>
+<li><a href="#common-options">Common Options</a></li>
 <li><a href="#usage-examples">Usage Examples</a></li>
-<li><a href="#diagrams">Diagrams</a></li>
+<li><a href="#lru-cache---ascii-diagram">LRU Cache - ASCII Diagram</a></li>
+<li><a href="#memorycachestore---ascii-diagram">MemoryCacheStore - ASCII Diagram</a></li>
+<li><a href="#sqlitecachestore---ascii-diagram">SQLiteCacheStore - ASCII Diagram</a></li>
+<li><a href="#lrucachewithttl---ascii-diagram">LRUCacheWithTTL - ASCII Diagram</a></li>
+</ul>
+</li>
 <li><a href="#use-cases">Use Cases</a></li>
+<li><a href="#-performance-comparison">📊 Performance Comparison</a></li>
+<li><a href="#%EF%B8%8F-performance-limits-by-backend">⚠️ Performance limits by backend</a></li>
+<li><a href="#faq--troubleshooting">FAQ / Troubleshooting</a>
+<ul>
+<li><a href="#why-is-sqlitecachestore-slower-than-in-memory-caches">Why is SQLiteCacheStore slower than in-memory caches?</a></li>
+<li><a href="#how-can-i-enable-observability-tracingmetrics">How can I enable observability (tracing/metrics)?</a></li>
+<li><a href="#i-get-experimentalwarning-sqlite-is-an-experimental-feature">I get “ExperimentalWarning: SQLite is an experimental feature”</a></li>
+<li><a href="#how-do-i-handle-errors-from-sqlitecachestore">How do I handle errors from SQLiteCacheStore?</a></li>
+<li><a href="#can-i-use-this-library-in-a-serverless-environment">Can I use this library in a serverless environment?</a></li>
+</ul>
+</li>
+<li><a href="#-contributing--development">🤝 Contributing / Development</a>
+<ul>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#project-setup">Project Setup</a></li>
+<li><a href="#useful-scripts">Useful Scripts</a></li>
+<li><a href="#project-structure">Project Structure</a></li>
+<li><a href="#best-practices">Best Practices</a></li>
+<li><a href="#before-submitting-a-pr">Before Submitting a PR</a></li>
+<li><a href="#need-help">Need help?</a></li>
+</ul>
+</li>
 <li><a href="#references">References</a></li>
+</ul>
+</li>
 </ul>
 <h2 id="install" class="tsd-anchor-link">Install<a href="#install" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">i</span><span class="hl-1"> </span><span class="hl-2">@stephen-shopopop/cache</span>
 </code><button type="button">Copy</button></pre>
