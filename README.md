@@ -76,6 +76,24 @@ new MemoryCacheStore<K, Metadata>({ maxCount?: number, maxEntrySize?: number, ma
 - `size`: number of items
 - `byteSize`: total size in bytes
 
+#### `SQLiteCacheStore<Metadata>`
+
+Persistent cache using SQLite as backend, supports metadata, TTL, entry size and count limits.
+
+**Constructor:**
+
+```typescript
+new SQLiteCacheStore<Metadata>({ filename?: string, maxEntrySize?: number, maxCount?: number, timeout?: number })
+```
+
+**Main methods:**
+
+- `set(key, value, metadata?, ttl?)`: add a value (string or Buffer) with metadata and optional TTL
+- `get(key)`: retrieve `{ value, metadata }` or undefined
+- `delete(key)`: remove a key
+- `size`: number of items
+- `close()`: close the database connection
+
 ### Common Options
 
 - `maxSize`: max number of items (LRUCache, LRUCacheWithTTL), max total size in bytes (MemoryCacheStore)
@@ -84,6 +102,9 @@ new MemoryCacheStore<K, Metadata>({ maxCount?: number, maxEntrySize?: number, ma
 - `ttl`: time to live in ms (LRUCacheWithTTL)
 - `cleanupInterval`: automatic cleanup interval (LRUCacheWithTTL)
 - `stayAlive`: keep the timer active (LRUCacheWithTTL)
+
+- `filename`: SQLite database file name (SQLiteCacheStore)
+- `timeout`: SQLite operation timeout in ms (SQLiteCacheStore)
 
 ### Usage Examples
 
@@ -98,6 +119,10 @@ lruTtl.set('a', 1);
 
 const mem = new MemoryCacheStore({ maxCount: 10, maxEntrySize: 1024 });
 mem.set('a', 'value', { meta: 123 });
+
+const sqlite = new SQLiteCacheStore({ filename: 'cache.db', maxEntrySize: 1024 });
+sqlite.set('a', 'value', { meta: 123 }, 60000);
+const result = sqlite.get('a');
 ```
 
 ## Reference
