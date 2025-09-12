@@ -1,3 +1,5 @@
+[![npm version](https://img.shields.io/npm/v/@stephen-shopopop/cache.svg)](https://www.npmjs.com/package/@stephen-shopopop/cache)
+[![Coverage Status](https://img.shields.io/badge/coverage-80%25-brightgreen)](./)
 [![CI](https://github.com/stephen-shopopop/node-cache/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/stephen-shopopop/node-cache/actions/workflows/ci.yml)
 
 # node-cache
@@ -46,7 +48,9 @@ A high-performance, strongly-typed caching library for Node.js, supporting in-me
     - [Useful Scripts](#useful-scripts)
     - [Project Structure](#project-structure)
     - [Best Practices](#best-practices)
+      - [Minimal test example (node:test)](#minimal-test-example-nodetest)
     - [Before Submitting a PR](#before-submitting-a-pr)
+    - [Release process](#release-process)
     - [Need help?](#need-help)
   - [References](#references)
 
@@ -335,7 +339,7 @@ Each backend has different performance characteristics and is suited for differe
 - Use SQLiteCacheStore (memory) for fast, non-persistent cache across processes.
 - Use SQLiteCacheStore (file) for persistent cache, but expect higher latency due to disk I/O.
 
-*Numbers are indicative, measured sur Apple M1, Node.js 24.x. Always benchmark on your own hardware for production sizing.*
+*Numbers are indicative, measured on Apple M1, Node.js 24.x. Always benchmark on your own hardware for production sizing.*
 
 ## FAQ / Troubleshooting
 
@@ -399,8 +403,27 @@ pnpm install # or npm install
 
 - Follow the style: semicolons, single quotes, arrow functions for callbacks
 - Avoid nested ternary operators
-- Always add tests for any new feature or bugfix
-- PRs and code reviews are in French
+- Always add tests for any new feature or bugfix (see example below)
+- Use clear, conventional commit messages (see [Conventional Commits](https://www.conventionalcommits.org/))
+- PRs and code reviews are welcome in French or English
+
+#### Minimal test example (node:test)
+
+```js
+import test from 'node:test';
+import { LRUCache } from '../src/library/LRUCache.js';
+
+test('LRUCache basic set/get', (t: TestContext) => {
+  // Arrange
+  const cache = new LRUCache({ maxSize: 2 });
+
+  // Act
+  cache.set('a', 1);
+
+  // Assert
+  t.assert.strictEqual(cache.get('a'), 1);
+});
+```
 
 ### Before Submitting a PR
 
@@ -409,10 +432,17 @@ pnpm install # or npm install
 3. Check coverage (`npm run test -- --coverage`)
 4. Add/complete documentation if needed
 5. Clearly describe your contribution in the PR
+6. Use clear, conventional commit messages
+7. If your change impacts users, update the README and/or documentation
+
+### Release process
+
+- Releases are tagged and published manually by the maintainer. If you want to help with releases, open an issue or PR.
 
 ### Need help?
 
-Open an issue or contact the maintainer via GitHub.
+- Open an [issue](https://github.com/stephen-shopopop/node-cache/issues) or contact the maintainer via GitHub.
+- See [pull requests](https://github.com/stephen-shopopop/node-cache/pulls) for ongoing work.
 
 ---
 
