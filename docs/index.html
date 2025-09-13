@@ -354,6 +354,16 @@ Eviction: LRU policy applies when maxSize is reached.
 </tbody>
 </table>
 <p><em>Bench run on Apple M1, Node.js 24.7.0, <code>npm run bench</code> — complex workflow = set, get, update, delete, hit/miss, TTL, metadata.</em></p>
+<p><strong>How are ops/s calculated?</strong>
+For each operation, the benchmark reports the average time per operation (e.g. <code>1.87 µs/iter</code>).
+To get the number of operations per second (ops/s), we use:</p>
+<p>ops/s = 1 / (average time per operation in seconds)</p>
+<p>Example: if the bench reports <code>856.45 ns/iter</code>, then:</p>
+<ul>
+<li>856.45 ns = 0.00000085645 seconds</li>
+<li>ops/s = 1 / 0.00000085645 ≈ 1,168,000</li>
+</ul>
+<p>All values in the table are calculated this way and rounded for readability.</p>
 <h2 id="⚠️-performance-limits-by-backend" class="tsd-anchor-link">⚠️ Performance limits by backend<a href="#⚠️-performance-limits-by-backend" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Each backend has different performance characteristics and is suited for different use cases:</p>
 <table>
 <thead>
