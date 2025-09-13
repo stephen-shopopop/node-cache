@@ -1,5 +1,5 @@
 [![npm version](https://img.shields.io/npm/v/@stephen-shopopop/cache.svg)](https://www.npmjs.com/package/@stephen-shopopop/cache)
-[![Coverage Status](https://img.shields.io/badge/coverage-80%25-brightgreen)](./)
+[![Coverage Status](https://img.shields.io/badge/coverage-96%25-brightgreen)](./)
 [![CI](https://github.com/stephen-shopopop/node-cache/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/stephen-shopopop/node-cache/actions/workflows/ci.yml)
 
 # node-cache
@@ -318,8 +318,6 @@ Eviction: LRU policy applies when maxSize is reached.
 
 *Bench run on Apple M1, Node.js 24.7.0, `npm run bench` — complex workflow = set, get, update, delete, hit/miss, TTL, metadata.*
 
-*Bench run on Apple M1, Node.js 24.7.0, `npm run bench`*
-
 ## ⚠️ Performance limits by backend
 
 Each backend has different performance characteristics and is suited for different use cases:
@@ -429,7 +427,7 @@ test('LRUCache basic set/get', (t: TestContext) => {
 
 1. Make sure all tests pass (`npm run test`)
 2. Check lint and formatting (`npm run lint && npm run format`)
-3. Check coverage (`npm run test -- --coverage`)
+3. Check coverage (`npm run coverage`)
 4. Add/complete documentation if needed
 5. Clearly describe your contribution in the PR
 6. Use clear, conventional commit messages

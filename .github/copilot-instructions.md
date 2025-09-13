@@ -31,6 +31,7 @@ This project implements high-performance, in-memory cache solutions for Node.js,
 - **Generate docs**: `npm run docs` (outputs to `/docs`)
 - **Update dependencies**: `npm run deps:update`
 - **Clean**: `npm run clean`
+- **Bench**: `npm run bench`
 
 ## Testing
 
