@@ -78,7 +78,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
     "@reporters/github": "^1.11.0",
-    "@types/node": "^24.3.1",
+    "@types/node": "^24.3.3",
     "c8": "^10.1.3",
     "mitata": "^1.0.34",
     "tsd": "^0.33.0",
