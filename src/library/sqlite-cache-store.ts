@@ -25,14 +25,29 @@ const MAX_ENTRY_SIZE = 2 * 1000 * 1000 * 1000;
 
 /**
  * SQLiteConnector implements a singleton pattern for SQLite database connections.
- * This class manages database connections and ensures only one instance exists.
+ * This class manages database connections and ensures only one instance exists for the cache.
+ *
+ * ## Advanced usage
+ *
+ * The singleton is exposed to allow advanced developers to perform direct reads, diagnostics,
+ * or custom actions on the underlying SQLite database, while ensuring only one connection exists.
+ *
+ * **Warning:**
+ * - Any direct use of the singleton must respect the single-connection policy (no parallel connections).
+ * - Custom queries or writes may impact the cache's integrity or performance.
+ * - Use with caution and always document your advanced usages in your codebase.
+ *
+ * This design follows the SOLID Open/Closed principle: the cache is extensible for advanced needs
+ * without modifying its core logic, but remains safe for standard usage.
  *
  * @class SQLiteConnector
  *
  * @example
  * ```typescript
+ * // Access the singleton for advanced operations (read-only or diagnostics)
  * const connector = SQLiteConnector.getInstance(':memory:');
  * const db = connector.createConnection();
+ * // ...custom queries...
  * ```
  *
  * @property {SQLiteConnector} #instance - Private static instance of the connector
