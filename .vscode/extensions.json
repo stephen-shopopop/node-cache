@@ -40,6 +40,8 @@
     "ms-vscode.makefile-tools",
     // Toml
     "amasfe.even-better-toml",
+    // Yaml
+    "redhat.vscode-yaml",
     // Html
     "htmlhint.vscode-htmlhint",
     // Node test
