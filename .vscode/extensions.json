@@ -18,7 +18,7 @@
     "usernamehw.errorlens",
     "github.vscode-github-actions",
     // Database
-    "cweijan.dbclient-jdbc",
+    "cweijan.vscode-database-client2",
     // Theme
     "chadalen.vscode-jetbrains-icon-theme",
     "qvist.jetbrains-new-ui-dark-theme",
