@@ -30,7 +30,7 @@ import type { LRUCacheOptions } from './definition.js';
 export class LRUCache<K, V> {
   #cache: Map<K, V> = new Map();
 
-  #maxSize = Number.POSITIVE_INFINITY;
+  readonly #maxSize = Number.POSITIVE_INFINITY;
 
   /**
    * Creates a new instance of the LRU Cache.

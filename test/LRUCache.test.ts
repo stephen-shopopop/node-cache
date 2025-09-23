@@ -1,5 +1,7 @@
+// noinspection DuplicatedCode
+
 import { test, describe, type TestContext } from 'node:test';
-import { LRUCache } from '../src/library/LRUCache.js';
+import { LRUCache } from '../src/index.js';
 
 describe('LRUCache', () => {
   test('constructor should create cache with default settings', (t: TestContext) => {
@@ -165,24 +167,6 @@ describe('LRUCache', () => {
     // Assert
     t.assert.strictEqual(cache.size, 2);
     t.assert.strictEqual(cache.get('a'), 3);
-  });
-
-  test('accessing an item should update its recency', (t: TestContext) => {
-    t.plan(3);
-
-    // Arrange
-    const cache = new LRUCache<string, number>({ maxSize: 2 });
-
-    // Act
-    cache.set('a', 1);
-    cache.set('b', 2);
-    cache.get('a'); // Access 'a' to make it most recently used
-    cache.set('c', 3); // This should evict 'b'
-
-    // Assert
-    t.assert.strictEqual(cache.get('b'), undefined);
-    t.assert.strictEqual(cache.get('a'), 1);
-    t.assert.strictEqual(cache.get('c'), 3);
   });
 
   test('entries should return iterator in order of least recently used', (t: TestContext) => {

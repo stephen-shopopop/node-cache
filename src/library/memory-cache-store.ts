@@ -32,9 +32,9 @@ type Value<Metadata> = {
  * ```
  */
 export class MemoryCacheStore<K, Metadata extends object = Record<PropertyKey, unknown>> {
-  #maxEntrySize = 5242880; // 5MB
-  #maxSize = 104857600; // 100MB
-  #maxCount = 1024;
+  readonly #maxEntrySize: number = 5242880; // 5MB
+  readonly #maxSize: number = 104857600; // 100MB
+  readonly #maxCount: number = 1024;
   #data: LRUCache<K, Value<Metadata>>;
 
   #size = 0;

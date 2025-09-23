@@ -1,5 +1,5 @@
 import { test, describe, type TestContext } from 'node:test';
-import { MemoryCacheStore } from '../src/library/memory-cache-store.js';
+import { MemoryCacheStore } from '../src/index.js';
 
 describe('MemoryCacheStore', () => {
   test('constructor - should create instance with default values', (t: TestContext) => {

@@ -1,5 +1,5 @@
 import { test, describe, type TestContext } from 'node:test';
-import { LRUCacheWithTTL } from '../src/library/LRUCacheWithTTL.js';
+import { LRUCacheWithTTL } from '../src/index.js';
 
 describe('LRUCacheWithTTL', () => {
   test('constructor validation', (t: TestContext) => {

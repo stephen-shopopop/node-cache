@@ -133,8 +133,8 @@ export class SQLiteConnector {
  */
 export class SQLiteCacheStore<Metadata extends object = Record<PropertyKey, unknown>> {
   #db: DatabaseSync;
-  #maxEntrySize = MAX_ENTRY_SIZE;
-  #maxCount = Number.POSITIVE_INFINITY;
+  readonly #maxEntrySize = MAX_ENTRY_SIZE;
+  readonly #maxCount = Number.POSITIVE_INFINITY;
   #countEntriesQuery: StatementSync;
   #deleteExpiredValuesQuery: StatementSync;
   #deleteOldValuesQuery: StatementSync | null = null;

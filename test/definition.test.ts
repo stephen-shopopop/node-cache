@@ -5,7 +5,7 @@ import type {
   MemoryCacheStoreOptions,
   SQLiteCacheStoreOptions,
   Path
-} from '../src/library/definition.ts';
+} from '../src/index.js';
 
 test('LRUCacheOptions: should accept valid maxSize', (t: TestContext) => {
   t.plan(1);

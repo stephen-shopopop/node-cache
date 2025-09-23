@@ -30,10 +30,10 @@ import type { LRUCacheWithTTLOptions } from './definition.js';
  */
 export class LRUCacheWithTTL<K, V> {
   #cache: LRUCache<K, { value: V; expiry?: number | undefined }>;
-  #ttl: number | undefined;
-  #timer: NodeJS.Timeout | undefined;
-  #cleanupInterval = 60000;
-  #maxSize = 1024;
+  readonly #ttl: number | undefined;
+  readonly #timer: NodeJS.Timeout | undefined;
+  readonly #cleanupInterval: number = 60000;
+  readonly #maxSize: number = 1024;
 
   /**
    * Creates a new instance of CacheLRUWithTTL

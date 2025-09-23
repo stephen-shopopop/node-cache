@@ -335,13 +335,13 @@ All values in the table are calculated this way and rounded for readability.
 
 Each backend has different performance characteristics and is suited for different use cases:
 
-| Backend                | Typical use case                | Max ops/s (indicative) | Latency (typical) | Notes |
-|------------------------|---------------------------------|------------------------|-------------------|-------|
-| LRUCache               | Hot-path, ultra-fast in-memory  | >1,000,000             | <2µs              | No persistence, no TTL |
-| LRUCacheWithTTL        | In-memory with expiration       | >1,000,000             | <2µs              | TTL adds slight overhead |
-| MemoryCacheStore       | In-memory, metadata, size limit | ~1,000,000             | <2µs              | Metadata, size/count limits |
-| SQLiteCacheStore (mem) | Fast, ephemeral persistence     | ~100,000               | ~10µs             | Data lost on restart |
-| SQLiteCacheStore (file)| Durable persistence             | ~50,000                | ~20–50µs          | Disk I/O, best for cold data |
+| Backend                 | Typical use case                | Max ops/s (indicative) | Latency (typical) | Notes                        |
+|-------------------------|---------------------------------|------------------------|-------------------|------------------------------|
+| LRUCache                | Hot-path, ultra-fast in-memory  | >1,000,000             | <2µs              | No persistence, no TTL       |
+| LRUCacheWithTTL         | In-memory with expiration       | >1,000,000             | <2µs              | TTL adds slight overhead     |
+| MemoryCacheStore        | In-memory, metadata, size limit | ~1,000,000             | <2µs              | Metadata, size/count limits  |
+| SQLiteCacheStore (mem)  | Fast, ephemeral persistence     | ~100,000               | ~10µs             | Data lost on restart         |
+| SQLiteCacheStore (file) | Durable persistence             | ~50,000                | ~20–50µs          | Disk I/O, best for cold data |
 
 **Guidance:**
 
