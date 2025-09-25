@@ -62,6 +62,12 @@ A high-performance, strongly-typed caching library for Node.js, supporting in-me
 npm i @stephen-shopopop/cache
 ```
 
+For Redis support, you also need to install iovalkey:
+
+```bash
+npm i iovalkey
+```
+
 ## Setup
 
 This library requires no special configuration for basic usage.
@@ -70,6 +76,13 @@ This library requires no special configuration for basic usage.
 - Compatible with both ESM (`import`) and CommonJS (`require`)
 - TypeScript types included
 - SQLiteCacheStore available on Node.js > 20.x
+- **RedisCacheStore requires `iovalkey` package to be installed separately**
+
+For Redis support with RedisCacheStore, install the required dependency:
+
+```bash
+npm i iovalkey
+```
 
 ### ESM
 
@@ -169,6 +182,8 @@ Persistent cache using SQLite as backend, supports metadata, TTL, entry size and
 
 Distributed cache based on Redis, supports persistence, TTL, metadata, and entry size/count limits.
 
+> **Prerequisites:** Install `iovalkey` package: `npm i iovalkey`
+
 - **Constructor:**
 
   ```typescript
@@ -188,7 +203,7 @@ Distributed cache based on Redis, supports persistence, TTL, metadata, and entry
   - `delete(key)`: Remove a key
   - `close()`: Close the Redis connection
 
-> **Note:** RedisCacheStore requires an accessible Redis server. Connection or operation errors are thrown as-is.
+> **Note:** RedisCacheStore requires an accessible Redis server and the `iovalkey` package. Connection or operation errors are thrown as-is.
 
 ### Common Options
 
