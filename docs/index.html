@@ -391,38 +391,45 @@ Persistence: depends on Redis configuration (AOF, RDB, etc.).
 <tbody>
 <tr>
 <td>LRUCache</td>
-<td>1,082,000</td>
-<td>1,870,000</td>
-<td>1,060,000</td>
-<td>629,000</td>
+<td>1,220,000</td>
+<td>2,030,000</td>
+<td>1,190,000</td>
+<td>675,000</td>
 </tr>
 <tr>
 <td>LRUCacheWithTTL</td>
-<td>943,000</td>
-<td>1,670,000</td>
-<td>950,000</td>
-<td>591,000</td>
+<td>1,060,000</td>
+<td>1,830,000</td>
+<td>1,030,000</td>
+<td>615,000</td>
 </tr>
 <tr>
 <td>MemoryCacheStore</td>
-<td>1,059,000</td>
-<td>1,870,000</td>
-<td>177,600</td>
-<td>292,000</td>
+<td>1,120,000</td>
+<td>1,910,000</td>
+<td>182,000</td>
+<td>305,000</td>
+</tr>
+<tr>
+<td>RedisCacheStore</td>
+<td>28,000</td>
+<td>39,000</td>
+<td>33,000</td>
+<td>16,500</td>
 </tr>
 <tr>
 <td>SQLiteCacheStore (mem)</td>
-<td>110,000</td>
-<td>430,000</td>
-<td>137,000</td>
-<td>50,700</td>
+<td>121,000</td>
+<td>442,000</td>
+<td>141,000</td>
+<td>52,500</td>
 </tr>
 <tr>
 <td>SQLiteCacheStore (file)</td>
+<td>51,000</td>
 <td>49,000</td>
-<td>47,000</td>
-<td>135,000</td>
-<td>45,900</td>
+<td>137,000</td>
+<td>46,500</td>
 </tr>
 </tbody>
 </table>
@@ -452,7 +459,7 @@ To get the number of operations per second (ops/s), we use:</p>
 <tr>
 <td>LRUCache</td>
 <td>Hot-path, ultra-fast in-memory</td>
-<td>&gt;1,000,000</td>
+<td>&gt;1,200,000</td>
 <td>&lt;2µs</td>
 <td>No persistence, no TTL</td>
 </tr>
@@ -466,14 +473,14 @@ To get the number of operations per second (ops/s), we use:</p>
 <tr>
 <td>MemoryCacheStore</td>
 <td>In-memory, metadata, size limit</td>
-<td>~1,000,000</td>
+<td>~1,100,000</td>
 <td>&lt;2µs</td>
 <td>Metadata, size/count limits</td>
 </tr>
 <tr>
 <td>SQLiteCacheStore (mem)</td>
 <td>Fast, ephemeral persistence</td>
-<td>~100,000</td>
+<td>~120,000</td>
 <td>~10µs</td>
 <td>Data lost on restart</td>
 </tr>
@@ -487,9 +494,9 @@ To get the number of operations per second (ops/s), we use:</p>
 <tr>
 <td>RedisCacheStore</td>
 <td>Distributed, persistent cache</td>
-<td>~500,000</td>
-<td>~5–10µs</td>
-<td>Requires Redis server</td>
+<td>~27,000</td>
+<td>~40–100µs</td>
+<td>Network I/O, Redis server, async API</td>
 </tr>
 </tbody>
 </table>
@@ -499,7 +506,7 @@ To get the number of operations per second (ops/s), we use:</p>
 <li>Use MemoryCacheStore if you need metadata or strict size limits.</li>
 <li>Use SQLiteCacheStore (memory) for fast, non-persistent cache across processes.</li>
 <li>Use SQLiteCacheStore (file) for persistent cache, but expect higher latency due to disk I/O.</li>
-<li>Use RedisCacheStore for distributed caching, persistence, and when using Redis features.</li>
+<li>Use RedisCacheStore for distributed caching, multi-process sharing, and when Redis features or persistence are needed.</li>
 </ul>
 <p><em>Numbers are indicative, measured on Apple M1, Node.js 24.x. Always benchmark on your own hardware for production sizing.</em></p>
 <h2 id="faq--troubleshooting" class="tsd-anchor-link">FAQ / Troubleshooting<a href="#faq--troubleshooting" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><h3 id="why-is-sqlitecachestore-slower-than-in-memory-caches" class="tsd-anchor-link">Why is SQLiteCacheStore slower than in-memory caches?<a href="#why-is-sqlitecachestore-slower-than-in-memory-caches" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>SQLite is a disk-based database. Even with optimizations (WAL, memory temp store), disk I/O and serialization add latency compared to pure in-memory caches. For ultra-low-latency needs, use LRUCache or MemoryCacheStore.</p>

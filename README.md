@@ -391,11 +391,12 @@ Persistence: depends on Redis configuration (AOF, RDB, etc.).
 
 | Store                        | set (ops/s) | get (ops/s) | delete (ops/s) | complex workflow (ops/s) |
 |------------------------------|-------------|-------------|----------------|--------------------------|
-| LRUCache                     | 1,082,000   | 1,870,000   | 1,060,000      | 629,000                  |
-| LRUCacheWithTTL              |   943,000   | 1,670,000   |  950,000       | 591,000                  |
-| MemoryCacheStore             | 1,059,000   | 1,870,000   |  177,600       | 292,000                  |
-| SQLiteCacheStore (mem)       |   110,000   |   430,000   |  137,000       | 50,700                   |
-| SQLiteCacheStore (file)      |    49,000   |    47,000   |  135,000       | 45,900                   |
+| LRUCache                     | 1,220,000   | 2,030,000   | 1,190,000      | 675,000                  |
+| LRUCacheWithTTL              | 1,060,000   | 1,830,000   | 1,030,000      | 615,000                  |
+| MemoryCacheStore             | 1,120,000   | 1,910,000   |  182,000       | 305,000                  |
+| RedisCacheStore              |    28,000   |    39,000   |   33,000       | 16,500                   |
+| SQLiteCacheStore (mem)       |  121,000    |   442,000   |  141,000       | 52,500                   |
+| SQLiteCacheStore (file)      |   51,000    |    49,000   |  137,000       | 46,500                   |
 
 *Bench run on Apple M1, Node.js 24.7.0, `npm run bench` — complex workflow = set, get, update, delete, hit/miss, TTL, metadata.*
 
@@ -416,14 +417,14 @@ All values in the table are calculated this way and rounded for readability.
 
 Each backend has different performance characteristics and is suited for different use cases:
 
-| Backend                 | Typical use case                | Max ops/s (indicative) | Latency (typical) | Notes                        |
-|-------------------------|---------------------------------|------------------------|-------------------|------------------------------|
-| LRUCache                | Hot-path, ultra-fast in-memory  | >1,000,000             | <2µs              | No persistence, no TTL       |
-| LRUCacheWithTTL         | In-memory with expiration       | >1,000,000             | <2µs              | TTL adds slight overhead     |
-| MemoryCacheStore        | In-memory, metadata, size limit | ~1,000,000             | <2µs              | Metadata, size/count limits  |
-| SQLiteCacheStore (mem)  | Fast, ephemeral persistence     | ~100,000               | ~10µs             | Data lost on restart         |
-| SQLiteCacheStore (file) | Durable persistence             | ~50,000                | ~20–50µs          | Disk I/O, best for cold data |
-| RedisCacheStore         | Distributed, persistent cache   | ~500,000               | ~5–10µs           | Requires Redis server        |
+| Backend                 | Typical use case                | Max ops/s (indicative) | Latency (typical) | Notes                                 |
+|-------------------------|---------------------------------|------------------------|-------------------|---------------------------------------|
+| LRUCache                | Hot-path, ultra-fast in-memory  | >1,200,000             | <2µs              | No persistence, no TTL                |
+| LRUCacheWithTTL         | In-memory with expiration       | >1,000,000             | <2µs              | TTL adds slight overhead              |
+| MemoryCacheStore        | In-memory, metadata, size limit | ~1,100,000             | <2µs              | Metadata, size/count limits           |
+| SQLiteCacheStore (mem)  | Fast, ephemeral persistence     | ~120,000               | ~10µs             | Data lost on restart                  |
+| SQLiteCacheStore (file) | Durable persistence             | ~50,000                | ~20–50µs          | Disk I/O, best for cold data          |
+| RedisCacheStore         | Distributed, persistent cache   | ~27,000                | ~40–100µs         | Network I/O, Redis server, async API  |
 
 **Guidance:**
 
@@ -431,7 +432,7 @@ Each backend has different performance characteristics and is suited for differe
 - Use MemoryCacheStore if you need metadata or strict size limits.
 - Use SQLiteCacheStore (memory) for fast, non-persistent cache across processes.
 - Use SQLiteCacheStore (file) for persistent cache, but expect higher latency due to disk I/O.
-- Use RedisCacheStore for distributed caching, persistence, and when using Redis features.
+- Use RedisCacheStore for distributed caching, multi-process sharing, and when Redis features or persistence are needed.
 
 *Numbers are indicative, measured on Apple M1, Node.js 24.x. Always benchmark on your own hardware for production sizing.*
 

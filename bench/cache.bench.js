@@ -1,6 +1,12 @@
 // node bench/cache.bench.mjs
 
-import { LRUCacheWithTTL, LRUCache, MemoryCacheStore, SQLiteCacheStore } from '../dist/index.js';
+import {
+  LRUCacheWithTTL,
+  LRUCache,
+  MemoryCacheStore,
+  SQLiteCacheStore,
+  RedisCacheStore
+} from '../dist/index.js';
 import { bench, run } from 'mitata';
 import fs from 'node:fs';
 
@@ -15,6 +21,13 @@ const sqliteFile = './bench-sqlite-cache.db';
 if (fs.existsSync(sqliteFile)) fs.unlinkSync(sqliteFile);
 const cacheSqlite = new SQLiteCacheStore({ filename: sqliteFile, maxCount: 1000 });
 
+// Redis cache instance (assumes Redis server is running on localhost:6379)
+const cacheRedis = new RedisCacheStore({
+  url: 'redis://localhost:6379',
+  namespace: 'bench:',
+  maxCount: 1000
+});
+
 // --------------------------------------------------
 // Key initialization for "hit" tests
 // --------------------------------------------------
@@ -23,6 +36,7 @@ cacheLRU.set('foo', 42);
 cacheMem.set('foo', 'val');
 cacheSqlite.set('foo', 'val');
 cacheSqliteMem.set('foo', 'val');
+await cacheRedis.set('foo', 'val', {}, 60);
 
 //
 // === Benchmarks LRUCacheWithTTL ===
@@ -140,6 +154,29 @@ bench('SQLiteCacheStore (memory): delete (missing)', () => {
 }).gc('inner');
 
 //
+// === Benchmarks RedisCacheStore ===
+//
+bench('RedisCacheStore: set (new key)', async () => {
+  await cacheRedis.set(Math.random().toString(36), 'val', {}, 60);
+}).gc('inner');
+bench('RedisCacheStore: set (existing key)', async () => {
+  await cacheRedis.set('foo', 'val', {}, 60);
+}).gc('inner');
+bench('RedisCacheStore: get (hit)', async () => {
+  await cacheRedis.get('foo');
+}).gc('inner');
+bench('RedisCacheStore: get (miss)', async () => {
+  await cacheRedis.get('notfound');
+}).gc('inner');
+bench('RedisCacheStore: delete (existing)', async () => {
+  await cacheRedis.delete('foo');
+  await cacheRedis.set('foo', 'val', {}, 60);
+}).gc('inner');
+bench('RedisCacheStore: delete (missing)', async () => {
+  await cacheRedis.delete('notfound');
+}).gc('inner');
+
+//
 // === Complex workflow benchmark (realistic scenario) ===
 //
 function randomKey() {
@@ -191,6 +228,15 @@ bench('SQLiteCacheStore (memory): complex workflow', () => {
   cacheSqliteMem.get('notfound');
 }).gc('inner');
 
+bench('RedisCacheStore: complex workflow', async () => {
+  const k = randomKey();
+  await cacheRedis.set(k, 'val', { meta: Math.random() }, 1000);
+  await cacheRedis.get(k);
+  await cacheRedis.set('foo', 'val', { meta: 1 }, 500);
+  await cacheRedis.delete('foo');
+  await cacheRedis.get('notfound');
+}).gc('inner');
+
 //
 // === Run benchmarks and cleanup ===
 //
@@ -198,4 +244,5 @@ await run();
 
 cacheSqlite.close();
 cacheSqliteMem.close();
+await cacheRedis.close();
 if (fs.existsSync(sqliteFile)) fs.unlinkSync(sqliteFile);
