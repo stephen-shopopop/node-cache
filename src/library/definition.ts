@@ -1,3 +1,5 @@
+import type { RedisOptions } from 'iovalkey';
+
 /**
  * Configuration options for the LRU (Least Recently Used) Cache.
  *
@@ -5,7 +7,7 @@
  * @property {number} [maxSize] - The maximum number of items the cache can hold. When exceeded, least recently used items are removed.
  */
 export type LRUCacheOptions = {
-  maxSize?: number;
+  maxSize?: number | undefined;
 };
 
 /**
@@ -19,9 +21,9 @@ export type LRUCacheOptions = {
  * @property {number} [cleanupInterval] - Interval in milliseconds between cleanup of expired entries - Default value is 60000ms (1 minute)
  */
 export type LRUCacheWithTTLOptions = LRUCacheOptions & {
-  ttl?: number;
-  stayAlive?: boolean;
-  cleanupInterval?: number;
+  ttl?: number | undefined;
+  stayAlive?: boolean | undefined;
+  cleanupInterval?: number | undefined;
 };
 
 /**
@@ -33,9 +35,9 @@ export type LRUCacheWithTTLOptions = LRUCacheOptions & {
  * @property {number} [maxEntrySize] - Maximum size in bytes for a single cache entry
  */
 export type MemoryCacheStoreOptions = {
-  maxSize?: number;
-  maxCount?: number;
-  maxEntrySize?: number;
+  maxSize?: number | undefined;
+  maxCount?: number | undefined;
+  maxEntrySize?: number | undefined;
 };
 
 /**
@@ -48,10 +50,34 @@ export type MemoryCacheStoreOptions = {
  * @property {number} [timeout] - Timeout duration in milliseconds for database operations
  */
 export type SQLiteCacheStoreOptions = {
-  filename?: string;
-  maxEntrySize?: number;
-  maxCount?: number;
-  timeout?: number;
+  filename?: string | undefined;
+  maxEntrySize?: number | undefined;
+  maxCount?: number | undefined;
+  timeout?: number | undefined;
+};
+
+/**
+ * Configuration options for Redis cache store.
+ *
+ * @interface RedisCacheStoreOptions
+ * @property {boolean} [clientConfigTracking] - Enables or disables client configuration tracking.
+ * @property {RedisOptions} [clientOpts] - Options for configuring the Redis client.
+ * @property {number} [maxEntrySize] - Maximum size of a single cache entry in bytes.
+ * @property {number} [maxSize] - Maximum size in bytes that the cache can grow to. Default to `100MB`.
+ * @property {number} [maxCount] - Maximum number of entries allowed in the cache.
+ * @property {boolean} [tracking=true] - Enables Redis client-side caching. Defaults to `true`.
+ * @property {(err: Error) => void} [errorCallback] - Callback function to handle errors.
+ *
+ * @see https://redis.io/docs/latest/develop/reference/client-side-caching/
+ */
+export type RedisCacheStoreOptions = {
+  clientConfigTracking?: boolean | undefined;
+  clientOpts?: RedisOptions | undefined;
+  maxEntrySize?: number | undefined;
+  maxSize?: number | undefined;
+  maxCount?: number | undefined;
+  tracking?: boolean | undefined;
+  errorCallback?: (err: unknown) => void;
 };
 
 /**

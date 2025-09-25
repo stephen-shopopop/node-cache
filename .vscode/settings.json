@@ -1,5 +1,5 @@
 {
-  "window.zoomLevel": 0,
+  "window.zoomLevel": -1,
   "files.eol": "\n",
   "files.insertFinalNewline": true,
   "git.ignoreRebaseWarning": true,
@@ -110,5 +110,8 @@
     "node",
     "-e",
     "import('./test/setup.js').then(fn=>fn.default())"
-  ]
+  ],
+  "debug.javascript.defaultRuntimeExecutable": {
+    "pwa-node": "/Users/certideal/.local/share/mise/shims/node"
+  }
 }

@@ -12,18 +12,35 @@ import reporters from 'node:test/reporters';
 import { parseArgs } from 'node:util';
 import githubReporter from '@reporters/github';
 
-// Listen unhandledRejection
+/**
+ * Handles unhandled promise rejections by logging the error and exiting the process.
+ *
+ * @event process#unhandledRejection
+ * @param {Error} err - The error object representing the unhandled rejection.
+ */
 process.on('unhandledRejection', (err) => {
   console.error(err);
 
   process.exit(1);
 });
 
+/**
+ * Parses command-line arguments using Node.js's parseArgs utility.
+ *
+ * @constant
+ * @type {object}
+ * @property {object} values - Parsed option values.
+ * @property {Array} positionals - Positional arguments.
+ */
 const args = parseArgs({
   args: argv.slice(2),
   allowPositionals: true,
   options: {
-    concurrency: { type: 'string', short: 'c', default: `${os.availableParallelism() - 1}` },
+    concurrency: {
+      type: 'string',
+      short: 'c',
+      default: `${os.availableParallelism() - 1}`
+    },
     'expose-gc': { type: 'boolean' },
     watch: { short: 'w', type: 'boolean', default: false },
     help: { short: 'h', type: 'boolean', default: false },
@@ -45,7 +62,11 @@ const args = parseArgs({
             )
     },
     coverage: { short: 'C', type: 'boolean', default: false },
-    reporter: { short: 'r', type: 'string', default: process.stdout.isTTY ? 'spec' : 'tap' },
+    reporter: {
+      short: 'r',
+      type: 'string',
+      default: process.stdout.isTTY ? 'spec' : 'tap'
+    },
     lines: { type: 'string', default: '90' },
     branches: { type: 'string', default: '90' },
     functions: { type: 'string', default: '90' },
@@ -90,6 +111,10 @@ try {
     watch: args.values.watch
   });
 
+  /**
+   * Listen for process termination signals to gracefully shut down the test stream.
+   * @see https://nodejs.org/api/process.html#signal-events
+   */
   for (const signal of ['SIGTERM', 'SIGINT']) {
     process.once(signal, () => {
       // Destroy stream to call teardown correctly
@@ -100,14 +125,25 @@ try {
     });
   }
 
-  // Log test failures to console
+  /**
+   * Event listener for test failures.
+   *
+   * @event stream#test:fail
+   * @param {Object} testFail - The object containing information about the failed test.
+   */
   stream.on('test:fail', (testFail) => {
     console.error(testFail);
 
     process.exitCode = 1; // must be != 0, to avoid false positives in CI pipelines
   });
 
-  // Call tearDown
+  /**
+   * Handles the completion of the test stream.
+   *
+   * @function
+   * @param {stream.Readable} stream - The test stream to monitor for completion.
+   * @param {Function} callback - The callback to execute when the stream is finished.
+   */
   finished(stream, async () => {
     if (fs.existsSync(path.join(process.cwd(), args.values.rootDir, 'teardown.js'))) {
       await import(path.join(process.cwd(), args.values.rootDir, 'teardown.js')).then((x) =>
