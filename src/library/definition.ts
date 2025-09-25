@@ -60,7 +60,6 @@ export type SQLiteCacheStoreOptions = {
  * Configuration options for Redis cache store.
  *
  * @interface RedisCacheStoreOptions
- * @property {boolean} [clientConfigTracking] - Enables or disables client configuration tracking.
  * @property {RedisOptions} [clientOpts] - Options for configuring the Redis client.
  * @property {number} [maxEntrySize] - Maximum size of a single cache entry in bytes.
  * @property {number} [maxSize] - Maximum size in bytes that the cache can grow to. Default to `100MB`.
@@ -71,7 +70,6 @@ export type SQLiteCacheStoreOptions = {
  * @see https://redis.io/docs/latest/develop/reference/client-side-caching/
  */
 export type RedisCacheStoreOptions = {
-  clientConfigTracking?: boolean | undefined;
   clientOpts?: RedisOptions | undefined;
   maxEntrySize?: number | undefined;
   maxSize?: number | undefined;

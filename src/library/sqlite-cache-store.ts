@@ -339,7 +339,7 @@ export class SQLiteCacheStore<Metadata extends object = Record<PropertyKey, unkn
    *
    * @param key The key of the cache entry to delete
    */
-  delete(key: string) {
+  delete(key: string): void {
     this.#deleteByKeyQuery.run(key);
   }
 
@@ -375,7 +375,7 @@ export class SQLiteCacheStore<Metadata extends object = Record<PropertyKey, unkn
    * @throws {TypeError} If TTL is not a non-negative integer
    * @throws {Error} If value size exceeds maxEntrySize
    */
-  set(key: string, value: string | Buffer, metadata: Metadata = {} as Metadata, ttl = 0) {
+  set(key: string, value: string | Buffer, metadata: Metadata = {} as Metadata, ttl = 0): void {
     if (typeof value !== 'string' && !Buffer.isBuffer(value)) {
       throw new TypeError(
         `SQLiteCacheStore value must be a string or Buffer, received ${typeof value}`
@@ -413,7 +413,7 @@ export class SQLiteCacheStore<Metadata extends object = Record<PropertyKey, unkn
    *
    * @returns {number} The total count of cache entries
    */
-  get size() {
+  get size(): number {
     const { total } = this.#countEntriesQuery.get() as { total: number };
 
     return total;
@@ -423,7 +423,7 @@ export class SQLiteCacheStore<Metadata extends object = Record<PropertyKey, unkn
    * Closes the SQLite database connection.
    * This method should be called when the cache store is no longer needed to free up resources.
    */
-  close() {
+  close(): void {
     this.#db.close();
   }
 }

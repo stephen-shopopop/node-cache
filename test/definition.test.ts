@@ -3,8 +3,9 @@ import type {
   LRUCacheOptions,
   LRUCacheWithTTLOptions,
   MemoryCacheStoreOptions,
-  SQLiteCacheStoreOptions,
-  Path
+  Path,
+  RedisCacheStoreOptions,
+  SQLiteCacheStoreOptions
 } from '../src/index.js';
 
 test('LRUCacheOptions: should accept valid maxSize', (t: TestContext) => {
@@ -136,4 +137,54 @@ test('Path: should accept URL', (t: TestContext) => {
 
   // Assert
   t.assert.equal(p.protocol, 'file:');
+});
+
+test('RedisCacheStoreOptions: should accept all options', (t: TestContext) => {
+  t.plan(6);
+
+  // Arrange
+  const errorFn = (_err: unknown) => {};
+  const opts: RedisCacheStoreOptions = {
+    clientOpts: { host: 'localhost', port: 6379 },
+    maxEntrySize: 1024,
+    maxSize: 1024 * 1024,
+    maxCount: 100,
+    tracking: false,
+    errorCallback: errorFn
+  };
+
+  // Assert
+  t.assert.equal(typeof opts.clientOpts, 'object');
+  t.assert.equal(typeof opts.maxEntrySize, 'number');
+  t.assert.equal(typeof opts.maxSize, 'number');
+  t.assert.equal(typeof opts.maxCount, 'number');
+  t.assert.equal(typeof opts.tracking, 'boolean');
+  t.assert.equal(opts.errorCallback, errorFn);
+});
+
+test('RedisCacheStoreOptions: should allow empty object', (t: TestContext) => {
+  t.plan(1);
+
+  // Act
+  const opts: RedisCacheStoreOptions = {};
+
+  // Assert
+  t.assert.equal(Object.keys(opts).length, 0);
+});
+
+test('RedisCacheStoreOptions: errorCallback should be callable', (t: TestContext) => {
+  t.plan(1);
+
+  let called = false;
+  const opts: RedisCacheStoreOptions = {
+    errorCallback: () => {
+      called = true;
+    }
+  };
+
+  // Act
+  opts.errorCallback?.(new Error('fail'));
+
+  // Assert
+  t.assert.ok(called);
 });

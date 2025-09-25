@@ -6,6 +6,7 @@ import type {
   SQLiteCacheStoreOptions,
   Path
 } from '../dist/index.d.ts';
+import type { RedisOptions } from 'iovalkey';
 
 // LRUCacheOptions
 expectAssignable<LRUCacheOptions>({});
@@ -31,6 +32,22 @@ expectAssignable<SQLiteCacheStoreOptions>({
 });
 expectAssignable<SQLiteCacheStoreOptions>({});
 expectError<SQLiteCacheStoreOptions>({ timeout: 'oops' });
+
+// RedisCacheStoreOptions
+expectAssignable<RedisOptions>({});
+expectAssignable<RedisOptions>({ host: 'localhost', port: 6379 });
+expectError<RedisOptions>({ host: 123 });
+
+import type { RedisCacheStoreOptions } from '../dist/index.d.ts';
+expectAssignable<RedisCacheStoreOptions>({
+  clientOpts: { host: 'localhost', port: 6379 },
+  maxEntrySize: 2048,
+  maxSize: 100 * 1024 * 1024,
+  maxCount: 1000,
+  tracking: false
+});
+expectAssignable<RedisCacheStoreOptions>({});
+expectError<RedisCacheStoreOptions>({ maxSize: 'large' });
 
 // Path
 expectAssignable<Path>('/tmp/file.txt');
