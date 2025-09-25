@@ -29,6 +29,19 @@ run = 'npm install'
 description = "Linter for GithubAction files"
 run = 'actionlint && npm run check && npm run test'
 
+[tasks.docker-compose-up]
+description = 'Docker compose UP'
+run = 'docker compose -f compose.yml up -d'
+
+[tasks.docker-compose-down]
+description = 'Docker compose DOWN & Clean'
+run = 'docker compose -f compose.yml down --rmi local --volumes --remove-orphans'
+
+[tasks.docker-builder-prune]
+description = 'Docker prune'
+run = 'docker builder prune -a && docker image prune && docker network prune'
+
+
 [tasks.maintenance]
 description = 'Maintenance project'
 run = 'npm run maintenance && mise uninstall --all'

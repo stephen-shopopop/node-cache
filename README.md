@@ -78,12 +78,6 @@ This library requires no special configuration for basic usage.
 - SQLiteCacheStore available on Node.js > 20.x
 - **RedisCacheStore requires `iovalkey` package to be installed separately**
 
-For Redis support with RedisCacheStore, install the required dependency:
-
-```bash
-npm i iovalkey
-```
-
 ### ESM
 
 ```js
