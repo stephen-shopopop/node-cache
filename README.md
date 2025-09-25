@@ -396,7 +396,7 @@ Persistence: depends on Redis configuration (AOF, RDB, etc.).
 | MemoryCacheStore             | 1,120,000   | 1,910,000   |  182,000       | 305,000                  |
 | RedisCacheStore              |    28,000   |    39,000   |   33,000       | 16,500                   |
 | SQLiteCacheStore (mem)       |  121,000    |   442,000   |  141,000       | 52,500                   |
-| SQLiteCacheStore (file)      |   51,000    |    49,000   |  137,000       | 46,500                   |
+| SQLiteCacheStore (file)       |   51,000    |    49,000   |  137,000       | 46,500                   |
 
 *Bench run on Apple M1, Node.js 24.7.0, `npm run bench` — complex workflow = set, get, update, delete, hit/miss, TTL, metadata.*
 

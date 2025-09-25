@@ -1,6 +1,7 @@
 import { Console } from 'node:console';
 import dockerCompose from 'docker-compose';
 import net from 'node:net';
+import path from 'node:path';
 
 const logger = new Console({ stderr: process.stderr, stdout: process.stdout });
 

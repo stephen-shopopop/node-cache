@@ -9,6 +9,15 @@ import {
 } from '../dist/index.js';
 import { bench, run } from 'mitata';
 import fs from 'node:fs';
+import dockerCompose from 'docker-compose';
+import path from 'node:path';
+
+// ️️️✅ Best Practice: Ensure the Redis server is running before starting benchmarks
+await dockerCompose.upAll({
+  config: 'compose.yml',
+  cwd: path.join(process.cwd()),
+  log: true
+});
 
 // ===============================
 // Cache instance creation
