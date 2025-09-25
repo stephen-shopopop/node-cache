@@ -9,7 +9,7 @@ import { MemoryCacheStore } from './memory-cache-store.js';
  * Architecture diagram:
  * ```
  * ┌─────────────────────────────────────────────────────────────────┐
- * │                        RedisCacheStore                         │
+ * │                        RedisCacheStore                          │
  * ├─────────────────────────────────────────────────────────────────┤
  * │  ┌─────────────────┐    ┌─────────────────┐    ┌──────────────┐ │
  * │  │   Redis Client  │    │ Redis Subscribe │    │ Memory Cache │ │
@@ -353,6 +353,7 @@ export class RedisCacheStore<Metadata extends object = Record<PropertyKey, unkno
     if (options?.tracking !== false) {
       this.#trackingCache = new MemoryCacheStore({
         maxEntrySize: this.#maxEntrySize,
+        maxSize: options?.maxSize,
         maxCount: options?.maxCount
       });
 
