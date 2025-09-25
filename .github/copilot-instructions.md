@@ -7,6 +7,7 @@ This project implements high-performance, in-memory cache solutions for Node.js,
 - LRU cache with TTL (`LRUCacheWithTTL`)
 - Memory cache store with metadata and size limits (`MemoryCacheStore`)
 - SQLite cache store with metadata and entry size limit (`SQLiteCacheStore`)
+- **Redis cache store for distributed and persistent caching (`RedisCacheStore`)**
 
 ## Architecture & Structure
 
@@ -20,8 +21,8 @@ This project implements high-performance, in-memory cache solutions for Node.js,
 - All caches use strong typing and explicit size/TTL controls.
 - LRU logic is encapsulated in `LRUCache`, reused by other cache types.
 - `MemoryCacheStore` supports metadata per entry and byte-size limits.
+- **`RedisCacheStore` provides distributed, persistent caching with TTL and metadata, using a Redis backend.**
 - Prefer arrow functions for callbacks, single quotes for strings, and always use semicolons.
-
 
 ## Developer Workflows
 
@@ -34,7 +35,6 @@ This project implements high-performance, in-memory cache solutions for Node.js,
 - **Clean**: `npm run clean`
 - **Bench**: `npm run bench`
 
-
 ## Testing
 
 - Uses `node:test` (no Jest, Mocha, etc.)
@@ -42,6 +42,7 @@ This project implements high-performance, in-memory cache solutions for Node.js,
 - Test files: `test/*.test.ts`
 - Coverage and multiple reporters supported via CLI options (see below)
 - Setup/teardown: `test/setup.js`, `test/teardown.js`
+- **For `RedisCacheStore`, integration tests should use a local or test Redis instance and clean up keys after each test.**
 
 ### Minimal test example
 
@@ -53,13 +54,13 @@ test('LRUCache basic set/get', (t: TestContext) => {
   t.plan(1);
 
   // Arrange
-	const cache = new LRUCache({ maxSize: 2 });
+    const cache = new LRUCache({ maxSize: 2 });
 
   // Act
-	cache.set('a', 1);
+    cache.set('a', 1);
 
   // Assert
-	t.assert.strictEqual(cache.get('a'), 1);
+    t.assert.strictEqual(cache.get('a'), 1);
 });
 ```
 
@@ -74,17 +75,18 @@ test('LRUCache basic set/get', (t: TestContext) => {
 - `--timeout/-t`: Test timeout (default: 30000ms)
 - Coverage thresholds: `--lines`, `--functions`, `--branches` (default: 80)
 
-
 ## Coding Standards
 
 - Use semicolons, single quotes, and arrow functions for callbacks.
 - Avoid nested ternary operators for readability.
+- **For `RedisCacheStore`, always handle async/await and connection errors explicitly.**
 - Code reviews should be in French and focus on clarity.
 
 ## Compatibility
 
 - Tested on Node.js >= 20.17.0
+- **`RedisCacheStore` requires a running Redis server (local or remote).**
 
 ## Examples
 
-See `README.md` for usage and API examples.
+See `README.md` for usage and API examples, including `RedisCacheStore`.

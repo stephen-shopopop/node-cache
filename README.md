@@ -26,16 +26,18 @@ A high-performance, strongly-typed caching library for Node.js, supporting in-me
       - [LRUCache\<K, V\>](#lrucachek-v)
       - [LRUCacheWithTTL\<K, V\>](#lrucachewithttlk-v)
       - [MemoryCacheStore\<K, Metadata\>](#memorycachestorek-metadata)
-      - [SQLiteCacheStore](#sqlitecachestoremetadata)
+      - [SQLiteCacheStore](#sqlitecachestore)
+      - [RedisCacheStore](#rediscachestore)
     - [Common Options](#common-options)
     - [Usage Examples](#usage-examples)
     - [LRU Cache - ASCII Diagram](#lru-cache---ascii-diagram)
     - [MemoryCacheStore - ASCII Diagram](#memorycachestore---ascii-diagram)
     - [SQLiteCacheStore - ASCII Diagram](#sqlitecachestore---ascii-diagram)
     - [LRUCacheWithTTL - ASCII Diagram](#lrucachewithttl---ascii-diagram)
+    - [RedisCacheStore - ASCII Diagram](#rediscachestore---ascii-diagram)
   - [Use Cases](#use-cases)
   - [📊 Performance Comparison](#-performance-comparison)
-  - [⚠️ Performance limits by backend](#-performance-limits-by-backend)
+  - [⚠️ Performance limits by backend](#️-performance-limits-by-backend)
   - [FAQ / Troubleshooting](#faq--troubleshooting)
     - [Why is SQLiteCacheStore slower than in-memory caches?](#why-is-sqlitecachestore-slower-than-in-memory-caches)
     - [How can I enable observability (tracing/metrics)?](#how-can-i-enable-observability-tracingmetrics)
@@ -163,6 +165,31 @@ Persistent cache using SQLite as backend, supports metadata, TTL, entry size and
 > **Note:** SQLiteCacheStore methods may throw errors related to SQLite (connection, query, file access, etc.).
 > It is the responsibility of the user to handle these errors (e.g., with try/catch) according to their application's needs. The library does not catch or wrap SQLite errors by design.
 
+#### RedisCacheStore<Metadata>
+
+Distributed cache based on Redis, supports persistence, TTL, metadata, and entry size/count limits.
+
+- **Constructor:**
+
+  ```typescript
+  new RedisCacheStore<Metadata>({
+    url?: string,
+    maxEntrySize?: number,
+    maxCount?: number,
+    ttl?: number,
+    namespace?: string,
+    redisOptions?: object
+  })
+  ```
+
+- **Methods:**
+  - `set(key, value, metadata?, ttl?)`: Add a value (string or Buffer) with optional metadata and TTL
+  - `get(key)`: Retrieve `{ value, metadata }` or undefined
+  - `delete(key)`: Remove a key
+  - `close()`: Close the Redis connection
+
+> **Note:** RedisCacheStore requires an accessible Redis server. Connection or operation errors are thrown as-is.
+
 ### Common Options
 
 - `maxSize`: max number of items (LRUCache, LRUCacheWithTTL), max total size in bytes (MemoryCacheStore)
@@ -174,11 +201,14 @@ Persistent cache using SQLite as backend, supports metadata, TTL, entry size and
 
 - `filename`: SQLite database file name (SQLiteCacheStore)
 - `timeout`: SQLite operation timeout in ms (SQLiteCacheStore)
+- `url`: Redis server URL (RedisCacheStore)
+- `namespace`: Key namespace for RedisCacheStore (RedisCacheStore)
+- `redisOptions`: Additional options for Redis client (RedisCacheStore)
 
 ### Usage Examples
 
 ```typescript
-import { LRUCache, LRUCacheWithTTL, MemoryCacheStore } from '@stephen-shopopop/cache';
+import { LRUCache, LRUCacheWithTTL, MemoryCacheStore, RedisCacheStore } from '@stephen-shopopop/cache';
 
 const lru = new LRUCache({ maxSize: 100 });
 lru.set('a', 1);
@@ -192,6 +222,10 @@ mem.set('a', 'value', { meta: 123 });
 const sqlite = new SQLiteCacheStore({ filename: 'cache.db', maxEntrySize: 1024 });
 sqlite.set('a', 'value', { meta: 123 }, 60000);
 const result = sqlite.get('a');
+
+const redis = new RedisCacheStore({ url: 'redis://localhost:6379', namespace: 'mycache:' });
+await redis.set('a', 'value', { meta: 123 }, 60000);
+const redisResult = await redis.get('a');
 ```
 
 ### LRU Cache - ASCII Diagram
@@ -294,6 +328,38 @@ Expiration: entries are removed when their TTL expires (checked on access or by 
 Eviction: LRU policy applies when maxSize is reached.
 ```
 
+### RedisCacheStore - ASCII Diagram
+
+```ascii
++-----------------------------+
+|      RedisCacheStore        |
++-----------------------------+
+|  #client: Redis client      |
+|  #namespace                 |
+|  #maxCount                  |
+|  #maxEntrySize              |
+|  #ttl                       |
++-----------------------------+
+        |
+        +---> [Redis server]
+                |
+                +---> Key: {namespace}{key}
+                        Value: JSON.stringify({ value, metadata })
+                        TTL: Redis expire (ms)
+
+Each entry:
+  {
+    key: string,
+    value: string | Buffer,
+    metadata: object,
+    ttl: number (ms, optional)
+  }
+
+Expiration: handled by Redis via TTL.
+Eviction: handled by Redis according to its memory policy.
+Persistence: depends on Redis configuration (AOF, RDB, etc.).
+```
+
 ## Use Cases
 
 - **API response caching**: Reduce latency and external API calls by caching HTTP responses in memory or on disk.
@@ -342,6 +408,7 @@ Each backend has different performance characteristics and is suited for differe
 | MemoryCacheStore        | In-memory, metadata, size limit | ~1,000,000             | <2µs              | Metadata, size/count limits  |
 | SQLiteCacheStore (mem)  | Fast, ephemeral persistence     | ~100,000               | ~10µs             | Data lost on restart         |
 | SQLiteCacheStore (file) | Durable persistence             | ~50,000                | ~20–50µs          | Disk I/O, best for cold data |
+| RedisCacheStore         | Distributed, persistent cache   | ~500,000               | ~5–10µs           | Requires Redis server        |
 
 **Guidance:**
 
@@ -349,6 +416,7 @@ Each backend has different performance characteristics and is suited for differe
 - Use MemoryCacheStore if you need metadata or strict size limits.
 - Use SQLiteCacheStore (memory) for fast, non-persistent cache across processes.
 - Use SQLiteCacheStore (file) for persistent cache, but expect higher latency due to disk I/O.
+- Use RedisCacheStore for distributed caching, persistence, and when using Redis features.
 
 *Numbers are indicative, measured on Apple M1, Node.js 24.x. Always benchmark on your own hardware for production sizing.*
 
