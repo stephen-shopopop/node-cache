@@ -4,10 +4,10 @@
 
 # node-cache
 
-A high-performance, strongly-typed caching library for Node.js, supporting in-memory (LRU, TTL), metadata, and persistent SQLite backends. Designed for reliability, flexibility, and modern TypeScript/ESM workflows.
+A high-performance, strongly-typed caching library for Node.js. Supports in-memory LRU and TTL caches, metadata, and persistent backends (SQLite, Redis). Designed for reliability, flexibility, and modern TypeScript/ESM workflows.
 
 - ⚡️ Fast in-memory LRU and TTL caches
-- 🗃️ Persistent cache with SQLite backend
+- 🗃️ Persistent cache with SQLite and Redis backends
 - 🏷️ Metadata support for all entries
 - 📏 Size and entry count limits
 - 🧑‍💻 100% TypeScript, ESM & CJS compatible

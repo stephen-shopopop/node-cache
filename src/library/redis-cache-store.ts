@@ -577,7 +577,7 @@ export class RedisCacheStore<Metadata extends object = Record<PropertyKey, unkno
     key: string,
     value: string | Buffer,
     metadata: Metadata = {} as Metadata,
-    ttl?: number
+    ttl = 0
   ): Promise<void> {
     if (typeof value !== 'string' && !Buffer.isBuffer(value)) {
       throw new TypeError(
@@ -610,8 +610,11 @@ export class RedisCacheStore<Metadata extends object = Record<PropertyKey, unkno
     const pipeline = this.#redis.pipeline();
     pipeline.hset(metadataKey, { metadata: JSON.stringify(metadata), id });
     pipeline.set(valueKey, value);
-    pipeline.expire(metadataKey, ttl);
-    pipeline.expire(valueKey, ttl);
+
+    if (ttl > 0) {
+      pipeline.expire(metadataKey, ttl);
+      pipeline.expire(valueKey, ttl);
+    }
 
     await pipeline.exec();
   }

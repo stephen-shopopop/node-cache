@@ -65,7 +65,7 @@ describe('RedisCacheStore', () => {
   // Helper to flush all keys
   const flushAllKeys = async () => {
     const redis = new Redis({ host: '127.0.0.1', port: 6379 });
-    // await redis.flushall();
+    await redis.flushall();
     await redis.quit();
   };
 
@@ -256,6 +256,92 @@ describe('RedisCacheStore', () => {
 
     // Assert
     t.assert.strictEqual(result, undefined);
+  });
+
+  test('set stores string value and metadata with no TTL', async (t: TestContext) => {
+    t.plan(3);
+
+    // Arrange
+    const key = 'set:string:no-ttl';
+    const value = 'some string';
+    const metadata = { foo: 'bar', bar: 123 };
+
+    // Act
+    await store.set(key, value, metadata);
+    const result = await store.get(key);
+
+    // Assert
+    t.assert.ok(result, 'Should retrieve stored value');
+    t.assert.strictEqual(result?.value, value);
+    t.assert.deepStrictEqual(result?.metadata, metadata);
+  });
+
+  test('set stores Buffer value and metadata with TTL', async (t: TestContext) => {
+    t.plan(3);
+
+    // Arrange
+    const key = 'set:buffer:ttl';
+    const value = Buffer.from('buffer-data');
+    const metadata = { foo: 'buffer', bar: 456 };
+    const ttl = 10;
+
+    // Act
+    await store.set(key, value, metadata, ttl);
+    const result = await store.get(key);
+
+    // Assert
+    t.assert.ok(result, 'Should retrieve stored buffer value');
+    t.assert.strictEqual(result?.value, value.toString());
+    t.assert.deepStrictEqual(result?.metadata, metadata);
+  });
+
+  test('set stores with empty metadata object', async (t: TestContext) => {
+    t.plan(2);
+
+    // Arrange
+    const key = 'set:empty:metadata';
+    const value = 'empty-metadata';
+
+    // Act
+    await store.set(key, value);
+    const result = await store.get(key);
+
+    // Assert
+    t.assert.ok(result, 'Should retrieve stored value');
+    t.assert.deepStrictEqual(result?.metadata, {});
+  });
+
+  test('set throws if value exceeds maxEntrySize', async (t: TestContext) => {
+    t.plan(1);
+
+    // Arrange
+    const key = 'too:large';
+    const bigValue = Buffer.alloc(104857600);
+
+    // Act & Assert
+    await t.assert.rejects(() => store.set(key, bigValue, {}, 10), /maxEntrySize/);
+  });
+
+  test('set stores and overwrites existing key', async (t: TestContext) => {
+    // t.plan(4);
+
+    // Arrange
+    const key = 'overwrite:key';
+    const value1 = 'first';
+    const value2 = 'second';
+    const metadata1 = { foo: 'one', bar: 1 };
+    const metadata2 = { foo: 'two', bar: 2 };
+
+    // Act
+    await store.set(key, value1, metadata1, 60);
+
+    // Overwrite
+    await store.set(key, value2, metadata2, 60);
+    const result = await store.get(key);
+
+    // Assert overwritten
+    t.assert.strictEqual(result?.value, value2);
+    t.assert.deepStrictEqual(result?.metadata, metadata2);
   });
 
   test('close can be called multiple times safely', async (t: TestContext) => {
