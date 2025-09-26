@@ -323,7 +323,7 @@ describe('RedisCacheStore', () => {
   });
 
   test('set stores and overwrites existing key', async (t: TestContext) => {
-    // t.plan(4);
+    t.plan(2);
 
     // Arrange
     const key = 'overwrite:key';
@@ -342,6 +342,90 @@ describe('RedisCacheStore', () => {
     // Assert overwritten
     t.assert.strictEqual(result?.value, value2);
     t.assert.deepStrictEqual(result?.metadata, metadata2);
+  });
+
+  test('findByKey returns value and metadata for existing key', async (t: TestContext) => {
+    t.plan(2);
+
+    // Arrange
+    const key = 'find:existing';
+    const value = 'find-value';
+    const metadata = { foo: 'find', bar: 99 };
+    await store.set(key, value, metadata, 60);
+
+    // Act
+    const result = await store.findByKey(key);
+
+    // Assert
+    t.assert.ok(result, 'Should return result for existing key');
+    t.assert.deepStrictEqual(result, { value, metadata });
+  });
+
+  test('findByKey returns undefined for missing key', async (t: TestContext) => {
+    t.plan(1);
+
+    // Act
+    const result = await store.findByKey('find:missing');
+
+    // Assert
+    t.assert.strictEqual(result, undefined);
+  });
+
+  test('findByKey cleans up and returns undefined if value expired but metadata exists', async (t: TestContext) => {
+    t.plan(2);
+
+    // Arrange
+    const key = 'find:expired';
+    const value = 'expired-value';
+    const metadata = { foo: 'expired', bar: 1 };
+    await store.set(key, value, metadata, 1);
+
+    // Wait for expiration
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    // Act
+    const result = await store.findByKey(key);
+
+    // Assert
+    t.assert.strictEqual(result, undefined);
+
+    // Metadata should be cleaned up
+    const redis = new Redis({ host: '127.0.0.1', port: 6379 });
+    const metaKey = `${keyPrefix}metadata:${key}`;
+    const metaExists = await redis.exists(metaKey);
+    await redis.quit();
+    t.assert.strictEqual(metaExists, 0, 'Metadata should be deleted');
+  });
+
+  test('findByKey deletes and returns undefined if metadata is corrupted', async (t: TestContext) => {
+    t.plan(2);
+
+    // Suppress expected error logs
+    t.mock.method(console, 'error', () => {});
+
+    // Arrange
+    const key = 'find:corrupt';
+    const value = 'corrupt-value';
+    const redis = new Redis({ host: '127.0.0.1', port: 6379 });
+    const id = randomUUID();
+    const metaKey = `${keyPrefix}metadata:${key}`;
+    const valueKey = `${keyPrefix}values:${id}`;
+    await redis.set(valueKey, value);
+    await redis.hset(metaKey, { metadata: '{invalid-json', id });
+    await redis.quit();
+
+    // Act
+    const result = await store.findByKey(key);
+
+    // Assert
+    t.assert.strictEqual(result, undefined);
+
+    // Both metadata and value should be deleted
+    const redis2 = new Redis({ host: '127.0.0.1', port: 6379 });
+    const metaExists = await redis2.exists(metaKey);
+    const valExists = await redis2.exists(valueKey);
+    await redis2.quit();
+    t.assert.strictEqual(metaExists + valExists, 0, 'Both metadata and value should be deleted');
   });
 
   test('close can be called multiple times safely', async (t: TestContext) => {
