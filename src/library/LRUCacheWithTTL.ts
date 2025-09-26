@@ -2,6 +2,40 @@ import { LRUCache } from './LRUCache.js';
 import type { LRUCacheWithTTLOptions } from './definition.js';
 
 /**
+ * Architecture Diagram: LRUCacheWithTTL
+ *
+ * ┌───────────────────────────────────────────────┐
+ * │               LRUCacheWithTTL                 │
+ * ├───────────────────────────────────────────────┤
+ * │  #cache: LRUCache<K, { value, expiry? }>      │
+ * │  #ttl: number | undefined                     │
+ * │  #timer: NodeJS.Timeout | undefined           │
+ * │  #cleanupInterval: number                     │
+ * │  #maxSize: number                             │
+ * └───────────────────────────────────────────────┘
+ *            │
+ *            ▼
+ *   ┌───────────────────────────────┐
+ *   │           LRUCache            │
+ *   └───────────────────────────────┘
+ *            │
+ *            ▼
+ *   ┌───────────────────────────────────────────────┐
+ *   │           Map<K, { value, expiry? }>         │
+ *   └───────────────────────────────────────────────┘
+ *
+ * Each entry:
+ *   {
+ *     value: V,
+ *     expiry?: number // timestamp (ms)
+ *   }
+ *
+ * Expiration: entries are removed when expired (on access or by cleanup timer).
+ * Eviction: least recently used entries are removed when maxSize is reached.
+ * All data is stored in memory only.
+ */
+
+/**
  * A Least Recently Used (LRU) cache implementation with Time-To-Live (TTL) support.
  *
  * @template K - The type of keys stored in the cache
@@ -29,10 +63,39 @@ import type { LRUCacheWithTTLOptions } from './definition.js';
  * - stayAlive must be a boolean
  */
 export class LRUCacheWithTTL<K, V> {
+  /**
+   * Internal LRU cache to store entries along with their expiry times
+   * @private
+   */
   #cache: LRUCache<K, { value: V; expiry?: number | undefined }>;
+
+  /**
+   * Default time-to-live (TTL) in milliseconds for cache entries.
+   * If not set, entries will not expire by default.
+   * @private
+   */
   readonly #ttl: number | undefined;
+
+  /**
+   * Timer for periodic cleanup of expired entries.
+   * If undefined, no cleanup timer is running.
+   * @private
+   */
   readonly #timer: NodeJS.Timeout | undefined;
+
+  /**
+   * Interval in milliseconds between cleanup runs.
+   * Default is 60000ms (1 minute).
+   * @private
+   */
   readonly #cleanupInterval: number = 60000;
+
+  /**
+   * Maximum number of items the cache can hold.
+   * When the cache exceeds this size, the least recently used item will be removed.
+   * Default is 1024.
+   * @private
+   */
   readonly #maxSize: number = 1024;
 
   /**

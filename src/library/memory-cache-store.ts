@@ -1,6 +1,45 @@
 import { LRUCache } from './LRUCache.js';
 import type { MemoryCacheStoreOptions } from './definition.js';
 
+/**
+ * Architecture Diagram: MemoryCacheStore
+ *
+ * ┌───────────────────────────────────────────────┐
+ * │               MemoryCacheStore                │
+ * ├───────────────────────────────────────────────┤
+ * │  #maxEntrySize: number                        │
+ * │  #maxSize: number                             │
+ * │  #maxCount: number                            │
+ * │  #data: LRUCache<K, Value<Metadata>>          │
+ * │  #size: number                                │
+ * └───────────────────────────────────────────────┘
+ *            │
+ *            ▼
+ *   ┌───────────────────────────────┐
+ *   │         LRUCache              │
+ *   └───────────────────────────────┘
+ *            │
+ *            ▼
+ *   ┌───────────────────────────────────────────────┐
+ *   │           Map<K, Value<Metadata>>             │
+ *   └───────────────────────────────────────────────┘
+ *
+ * Each entry:
+ *   {
+ *     value: string | Buffer,
+ *     metadata: object,
+ *     size: number
+ *   }
+ *
+ * Eviction: when maxCount or maxSize is reached, least recently used entries are removed.
+ * All data is stored in memory only.
+ */
+
+/**
+ * Type representing a cached value along with its associated metadata and size.
+ *
+ * @template Metadata - The type of metadata associated with the cached value
+ */
 type Value<Metadata> = {
   metadata: Metadata;
   value: string | Buffer;
@@ -32,11 +71,34 @@ type Value<Metadata> = {
  * ```
  */
 export class MemoryCacheStore<K, Metadata extends object = Record<PropertyKey, unknown>> {
+  /**
+   * Maximum size of a single entry in bytes. Default is 5MB.
+   * @private
+   */
   readonly #maxEntrySize: number = 5242880; // 5MB
+
+  /**
+   * Maximum total size of all entries in bytes. Default is 100MB.
+   * @private
+   */
   readonly #maxSize: number = 104857600; // 100MB
+
+  /**
+   * Maximum number of entries allowed in the cache. Default is 1024.
+   * @private
+   */
   readonly #maxCount: number = 1024;
+
+  /**
+   * Internal LRU cache to store entries along with their sizes for eviction management.
+   * @private
+   */
   #data: LRUCache<K, Value<Metadata>>;
 
+  /**
+   * Current total size of all entries in the cache in bytes.
+   * @private
+   */
   #size = 0;
 
   /**

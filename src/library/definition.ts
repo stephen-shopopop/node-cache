@@ -61,9 +61,9 @@ export type SQLiteCacheStoreOptions = {
  *
  * @interface RedisCacheStoreOptions
  * @property {RedisOptions} [clientOpts] - Options for configuring the Redis client.
- * @property {number} [maxEntrySize] - Maximum size of a single cache entry in bytes.
+ * @property {number} [maxEntrySize] - Maximum size of a single cache entry in bytes. Default to `100MB`.
  * @property {number} [maxSize] - Maximum size in bytes that the cache can grow to. Default to `100MB`.
- * @property {number} [maxCount] - Maximum number of entries allowed in the cache.
+ * @property {number} [maxCount] - Maximum number of entries allowed in the cache. Default to `1024`.
  * @property {boolean} [tracking=true] - Enables Redis client-side caching. Defaults to `true`.
  * @property {(err: Error) => void} [errorCallback] - Callback function to handle errors.
  *

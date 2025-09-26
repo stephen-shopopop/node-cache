@@ -3,6 +3,38 @@ import { createRequire } from 'node:module';
 import type { Path, SQLiteCacheStoreOptions } from './definition.js';
 
 /**
+ * Architecture Diagram: SQLiteCacheStore
+ *
+ * ┌───────────────────────────────────────────────┐
+ * │               SQLiteCacheStore                │
+ * ├───────────────────────────────────────────────┤
+ * │  #db: DatabaseSync                            │
+ * │  #maxEntrySize: number                        │
+ * │  #maxCount: number                            │
+ * │  ...                                          │
+ * └───────────────────────────────────────────────┘
+ *            │
+ *            ▼
+ *   ┌───────────────────────────────┐
+ *   │      SQLite Database File     │
+ *   └───────────────────────────────┘
+ *            │
+ *            ▼
+ *   ┌───────────────────────────────────────────────────┐
+ *   │           Table: cache_v{VERSION}                 │
+ *   ├───────────────────────────────────────────────────┤
+ *   │ id | key | value | metadata | deleteAt | cachedAt │
+ *   └───────────────────────────────────────────────────┘
+ *
+ *  - Each entry: { key, value, metadata, deleteAt, cachedAt }
+ *  - On set: insert or update entry, prune if needed.
+ *  - On get: fetch by key, check expiration.
+ *  - On delete: remove by key.
+ *  - Pruning: removes expired or oldest entries if over maxCount.
+ *  - Persistence: all data is stored in SQLite (file or memory).
+ */
+
+/**
  * Creates a require function scoped to the current module's URL.
  * This enables CommonJS-style require() in ESM modules.
  * @const {Function} require - The created require function
@@ -132,15 +164,64 @@ export class SQLiteConnector {
  * @throws {Error} When attempting to store entries larger than maxEntrySize
  */
 export class SQLiteCacheStore<Metadata extends object = Record<PropertyKey, unknown>> {
+  /**
+   * The SQLite database connection instance.
+   * @private
+   */
   #db: DatabaseSync;
+
+  /**
+   * The maximum size of a single cache entry in bytes.
+   * @private
+   */
   readonly #maxEntrySize = MAX_ENTRY_SIZE;
+
+  /**
+   * The maximum number of entries allowed in the cache.
+   * @private
+   */
   readonly #maxCount = Number.POSITIVE_INFINITY;
+
+  /**
+   * Prepared SQL statements for various cache operations.
+   * @private
+   */
   #countEntriesQuery: StatementSync;
+
+  /**
+   * Prepared SQL statement for deleting expired cache entries.
+   * @private
+   */
   #deleteExpiredValuesQuery: StatementSync;
+
+  /**
+   * Prepared SQL statement for deleting old cache entries when maxCount is exceeded.
+   * @private
+   */
   #deleteOldValuesQuery: StatementSync | null = null;
+
+  /**
+   * Prepared SQL statement for deleting a cache entry by its key.
+   * @private
+   */
   #deleteByKeyQuery: StatementSync;
+
+  /**
+   * Prepared SQL statement for retrieving a cache entry by its key.
+   * @private
+   */
   #getValuesQuery: StatementSync;
+
+  /**
+   * Prepared SQL statement for inserting a new cache entry.
+   * @private
+   */
   #insertValueQuery: StatementSync;
+
+  /**
+   * Prepared SQL statement for updating an existing cache entry.
+   * @private
+   */
   #updateValueQuery: StatementSync;
 
   /**

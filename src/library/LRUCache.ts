@@ -26,10 +26,40 @@ import type { LRUCacheOptions } from './definition.js';
  *      |______| <= older.|______| <= older.|______| <= older.|______|
  *
  *  removed  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  added
+ *
+ * Architecture Diagram: LRUCache
+ *
+ * ┌───────────────────────────────────────────────┐
+ * │                  LRUCache                    │
+ * ├───────────────────────────────────────────────┤
+ * │  #cache: Map<K, V>                           │
+ * │  #maxSize: number                            │
+ * └───────────────────────────────────────────────┘
+ *            │
+ *            ▼
+ *   ┌───────────────────────────────┐
+ *   │         Map<K, V>             │
+ *   └───────────────────────────────┘
+ *
+ * - Most recently used entries are at the end (tail), least recently used at the start (head).
+ * - When maxSize is reached, the oldest (head) entry is removed on insert.
+ * - Accessing an entry moves it to the most recently used position.
+ * - All data is stored in memory only.
  */
 export class LRUCache<K, V> {
+  /**
+   * Internal map to store cache entries in insertion order
+   * The most recently used entry is at the end (tail) and the least recently used at the beginning (head)
+   * @private
+   */
   #cache: Map<K, V> = new Map();
 
+  /**
+   * Maximum number of items the cache can hold.
+   * When the cache exceeds this size, the least recently used item will be removed.
+   * Default is Infinity (no limit).
+   * @private
+   */
   readonly #maxSize = Number.POSITIVE_INFINITY;
 
   /**
