@@ -11,6 +11,7 @@ import { bench, run } from 'mitata';
 import fs from 'node:fs';
 import dockerCompose from 'docker-compose';
 import path from 'node:path';
+import { Redis } from 'iovalkey';
 
 // ️️️✅ Best Practice: Ensure the Redis server is running before starting benchmarks
 await dockerCompose.upAll({
@@ -32,10 +33,20 @@ const cacheSqlite = new SQLiteCacheStore({ filename: sqliteFile, maxCount: 1000 
 
 // Redis cache instance (assumes Redis server is running on localhost:6379)
 const cacheRedis = new RedisCacheStore({
-  url: 'redis://localhost:6379',
-  namespace: 'bench:',
+  clientOpts: {
+    host: '127.0.0.1',
+    port: 6379,
+    keyPrefix: 'bench:'
+  },
   maxCount: 1000
 });
+
+// Helper function to flush all keys in Redis before starting benchmarks
+const flushAllKeys = async () => {
+  const redis = new Redis({ host: '127.0.0.1', port: 6379 });
+  await redis.flushall();
+  await redis.quit();
+};
 
 // --------------------------------------------------
 // Key initialization for "hit" tests
@@ -251,7 +262,9 @@ bench('RedisCacheStore: complex workflow', async () => {
 //
 await run();
 
+// Cleanup
 cacheSqlite.close();
 cacheSqliteMem.close();
 await cacheRedis.close();
+await flushAllKeys().catch(console.error);
 if (fs.existsSync(sqliteFile)) fs.unlinkSync(sqliteFile);

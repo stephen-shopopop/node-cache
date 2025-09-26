@@ -41,7 +41,6 @@ run = 'docker compose -f compose.yml down --rmi local --volumes --remove-orphans
 description = 'Docker prune'
 run = 'docker builder prune -a && docker image prune && docker network prune'
 
-
 [tasks.maintenance]
 description = 'Maintenance project'
 run = 'npm run maintenance && mise uninstall --all'

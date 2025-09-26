@@ -344,7 +344,7 @@ Eviction: LRU policy applies when maxSize is reached.
 |      RedisCacheStore        |
 +-----------------------------+
 |  #client: Redis client      |
-|  #namespace                 |
+|  #maxSize                   |
 |  #maxCount                  |
 |  #maxEntrySize              |
 |  #ttl                       |
@@ -352,7 +352,7 @@ Eviction: LRU policy applies when maxSize is reached.
         |
         +---> [Redis server]
                 |
-                +---> Key: {namespace}{key}
+                +---> Key: {keyPrefix}{key}
                         Value: JSON.stringify({ value, metadata })
                         TTL: Redis expire (ms)
 
