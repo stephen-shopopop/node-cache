@@ -16,9 +16,12 @@ experimental = true
 
 [tools] # Use "mise i" to install & use "mise use" to add tools
 actionlint = "latest"
+neovim = "latest"
 node = "24.8.0"
 
 "npm:@antfu/ni" = "latest"
+prettier = "latest"
+ripgrep = "latest"
 
 [tasks.install]
 description = 'Install the project dependencies'
@@ -44,6 +47,10 @@ run = 'docker builder prune -a && docker image prune && docker network prune'
 [tasks.maintenance]
 description = 'Maintenance project'
 run = 'npm run maintenance && mise uninstall --all'
+
+[tasks.nvim-config]
+description = 'Install nvim config'
+run = 'git clone https://github.com/stephen-shopopop/neovim ~/.config/nvim'
 
 [tasks.info]
 description = "Print project information"
