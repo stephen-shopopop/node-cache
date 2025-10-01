@@ -16,7 +16,6 @@ experimental = true
 
 [tools] # Use "mise i" to install & use "mise use" to add tools
 actionlint = "latest"
-lazydocker = "latest"
 lazygit = "latest"
 neovim = "latest"
 node = "24.8.0"
