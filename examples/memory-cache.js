@@ -10,7 +10,7 @@ const value = cache.get('foo');
 console.log(value); // Outputs: 'val'
 
 // Get cache size
-console.log(`Cache size: ${cache.size}`); // Outputs: 'Cache size: 1'
+console.log(`Cache size: ${cache.size}, with size: ${cache.byteSize}`); // Outputs: 'Cache size: 1, with size: 3'
 
 // Check if a key exists in the cache
 const hasKey = cache.has('foo');
