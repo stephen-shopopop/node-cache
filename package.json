@@ -91,8 +91,7 @@
     "typescript": "^5.9.2"
   },
   "simple-git-hooks": {
-    "pre-commit": "npm run check",
-    "commit-msg": "npx commitlint --edit $1"
+    "pre-commit": "npm run check"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
