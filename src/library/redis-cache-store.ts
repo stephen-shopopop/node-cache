@@ -20,7 +20,7 @@ import { MemoryCacheStore } from './memory-cache-store.js';
  * │           ▼                       ▼                     ▼       │
  * │  ┌─────────────────┐    ┌─────────────────┐    ┌──────────────┐ │
  * │  │   Data Storage  │    │   Invalidation  │    │ Fast Lookup  │ │
- * │  │   (Values +     │    │   Notifications  │    │   & Caching  │ │
+ * │  │   (Values +     │    │   Notifications │    │   & Caching  │ │
  * │  │   Metadata)     │    │                 │    │              │ │
  * │  └─────────────────┘    └─────────────────┘    └──────────────┘ │
  * └─────────────────────────────────────────────────────────────────┘

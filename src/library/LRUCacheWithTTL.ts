@@ -21,7 +21,7 @@ import type { LRUCacheWithTTLOptions } from './definition.js';
  *            │
  *            ▼
  *   ┌───────────────────────────────────────────────┐
- *   │           Map<K, { value, expiry? }>         │
+ *   │           Map<K, { value, expiry? }>          │
  *   └───────────────────────────────────────────────┘
  *
  * Each entry:
