@@ -348,7 +348,7 @@ export class RedisCacheStore<Metadata extends object = Record<PropertyKey, unkno
     this.#keyPrefix = keyPrefix ?? '';
 
     const RedisClient = require('iovalkey').Redis as new (opts: RedisOptions) => Redis;
-    this.#redis = new RedisClient({ enableAutoPipelining: true });
+    this.#redis = new RedisClient({ ...clientOpts, enableAutoPipelining: true });
 
     if (options?.tracking !== false) {
       this.#trackingCache = new MemoryCacheStore({
